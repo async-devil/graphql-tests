@@ -4,6 +4,7 @@
   "description": "Tests while studying graphql course",
   "main": "index.js",
   "scripts": {
+    "basic-start": "babel-node graphql-basics/src/index.js"
     "test": "echo Hello"
   },
   "repository": {
