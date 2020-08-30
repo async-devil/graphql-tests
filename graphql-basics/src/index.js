@@ -1,5 +1,9 @@
 import {GraphQLServer} from 'graphql-yoga'
 
+const opts = {
+  port: 4001
+}
+
 //Type definitions
 
 const typeDefs = `
@@ -47,8 +51,12 @@ const typeDefs = `
 //Resolvers
 const resolvers = {
   Query: {
-    greeting() {
-      return 'Hi'
+    greeting(parent, args, ctx, info) {
+      if (args.name) {
+        return `Hello, ${args.name}!`
+      } else {
+        return 'Hi'
+      }
     },
     me() {
       return {
@@ -103,6 +111,6 @@ const resolvers = {
 
 const server = new GraphQLServer({typeDefs, resolvers})
 
-server.start(() => {
+server.start(opts, () => {
   console.log('server started');
 })
