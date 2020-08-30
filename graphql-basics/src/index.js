@@ -16,6 +16,14 @@ const typeDefs = `
     stock: Int!
     rating: Float!
   }
+
+  type User {
+    username: String!
+    id: ID!
+    email: String!
+    products: Product!
+    age: Int!
+  }
 `
 
 //Resolvers
