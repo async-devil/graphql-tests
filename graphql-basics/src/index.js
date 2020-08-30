@@ -4,10 +4,7 @@ import {GraphQLServer} from 'graphql-yoga'
 
 const typeDefs = `
   type Query {
-    name: String!
-    id: ID!
-    published: Boolean!
-    gps: Float
+    me: User!
   }
 
   type Product {
@@ -22,7 +19,7 @@ const typeDefs = `
     id: ID!
     email: String!
     products: Product!
-    age: Int!
+    age: Int
   }
 `
 
@@ -30,17 +27,19 @@ const typeDefs = `
 
 const resolvers = {
   Query: {
-    name() {
-      return 'Name'
-    },
-    id() {
-      return '111-111-111';
-    },
-    published() {
-      return true;
-    },
-    gps() {
-      return null;
+    me() {
+      return {
+        username: 'test',
+        id: '111-111-111',
+        email: 'test@test.com',
+        products: {
+          type: 'test object',
+          id: '222-111-111',
+          stock: 2,
+          rating: 5.3
+        },
+        age: 21
+      }
     }
   }
 }
