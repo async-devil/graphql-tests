@@ -5,9 +5,16 @@ import {GraphQLServer} from 'graphql-yoga'
 const typeDefs = `
   type Query {
     name: String!
-    id: Id!
+    id: ID!
     published: Boolean!
     gps: Float
+  }
+
+  type Product {
+    type: String!
+    id: ID!
+    stock: Int!
+    rating: Float!
   }
 `
 
@@ -17,13 +24,13 @@ const resolvers = {
   Query: {
     name() {
       return 'Name'
-    }
+    },
     id() {
       return '111-111-111';
-    }
+    },
     published() {
       return true;
-    }
+    },
     gps() {
       return null;
     }
