@@ -4,12 +4,50 @@ const opts = {
   port: 4001
 }
 
+//demo DB
+const users = [
+  {
+    username: 'async-devil',
+    id: '#1111',
+    email: 'async.devil@gmail.com',
+    age: 27
+  }, {
+    username: 'test_user',
+    id: '#1112',
+    email: 'test@test.com'
+  }, {
+    username: 'test_user2',
+    id: '#1113',
+    email: 'test2@test.com'
+  }
+]
+const posts = [
+  {
+    heading: 'Test heading',
+    body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+    published: true,
+    id: 'sdasfbbshdfbkshd',
+    author: null,
+    comments: null,
+    rating: 0
+  }, {
+    heading: 'Test heading 2',
+    body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+    published: true,
+    id: '333-111-112',
+    author: null,
+    comments: null,
+    rating: 0
+  }
+]
+
 //Type definitions
 
 const typeDefs = `
   type Query {
     me: User!
-    greeting(name: String): String!
+    posts: [Post]
+    users: [User]
   }
 
   type Product {
@@ -24,7 +62,7 @@ const typeDefs = `
     body: String!
     published: Boolean!
     id: ID!
-    author: User!
+    author: User
     comments: Comment
     rating: Float!
   }
@@ -41,7 +79,7 @@ const typeDefs = `
     username: String!
     id: ID!
     email: String!
-    products: Product
+    products: [Product]
     posts: [Post]
     comments: [Comment]
     age: Int
@@ -51,66 +89,19 @@ const typeDefs = `
 //Resolvers
 const resolvers = {
   Query: {
-    greeting(parent, args, ctx, info) {
-      if (args.name) {
-        return `Hello, ${args.name}!`
-      } else {
-        return 'Hi'
-      }
+    users() {
+      return users;
+    },
+    posts() {
+      return posts;
     },
     me() {
-      return {
-        username: 'test',
-        id: '111-111-111',
-        email: 'test@test.com',
-        products: {
-          type: 'test object',
-          id: '222-111-111',
-          stock: 2,
-          rating: 5.3
-        },
-        posts: [
-          {
-            heading: 'Test heading',
-            body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-            published: true,
-            id: '333-111-111',
-            //author:
-            //comments:
-            rating: 0
-          }, {
-            heading: 'Test heading 2',
-            body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-            published: true,
-            id: '333-111-112',
-            //author:
-            //comments:
-            rating: 0
-          }
-        ],
-        comments: [
-          {
-            body: 'Lorem ipsum dolor sit amet',
-            published: false,
-            id: '444-111-111'
-            //author
-            //post
-          }, {
-            body: 'Lorem ipsum dolor sit amet 2',
-            published: false,
-            id: '444-111-112'
-            //author
-            //post
-          }
-        ],
-        age: 21
-      }
+      return {username: 'test', id: '111-111-111', email: 'test@test.com', age: 21}
     }
   }
 }
 
 const server = new GraphQLServer({typeDefs, resolvers})
-
 server.start(opts, () => {
   console.log('server started');
 })
