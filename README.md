@@ -1,5 +1,5 @@
 # graphql-tests
-  Repository where I study GraphQL
+  * Repository where I study GraphQL
 #Installation
   ```
     npm i
