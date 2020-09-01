@@ -1,11 +1,5 @@
 import {GraphQLServer} from 'graphql-yoga'
-
-class ValueError extends Error {
-  constructor(message) {
-    super(message)
-    this.name = 'ValueError'
-  }
-}
+const search = require('./searchFunc.js');
 
 const opts = {
   port: 4001
@@ -53,8 +47,8 @@ const posts = [
 const typeDefs = `
   type Query {
     me: User!
-    posts(searchByID: String, searchByName: String): [Post]
-    users(searchByID: String, searchByName: String): [User]
+    posts(searchByID: String, searchByTitle: String): [Post]
+    users(searchByID: String, searchByUsername: String): [User]
   }
 
   type Product {
@@ -78,8 +72,8 @@ const typeDefs = `
     body: String!
     published: Boolean!
     id: ID!
-    author: User!
-    post: Post!
+    author: User
+    post: Post
   }
 
   type User {
@@ -95,50 +89,10 @@ const typeDefs = `
 
 //Resolvers
 
-function search(arg1 = false, arg2 = false, db = false) {
-  //console.log(`first argument ${arg1}, second argument ${arg2}, data is `, db);
-
-  if (!arg1 && !arg2 && !db) {
-    throw new ValueError('Please provide arguments')
-  } else if (arg1 && !arg2 && db) {
-    try {
-      return db.filter((item) => {
-        return item.id.toLowerCase().includes(arg1.toLowerCase());
-      })
-    } catch (e) {
-      throw new ValueError('Please provide correct value')
-    }
-  } else if (!arg1 && arg2 && db) {
-    try {
-      return db.filter((item) => {
-        return item.username.toLowerCase().includes(arg2.toLowerCase());
-      })
-    } catch (e) {
-      throw new ValueError('Please provide correct value')
-    }
-  } else if (arg1 && arg2 && db) {
-    try {
-      var filtered = db.filter((item) => {
-        return item.id.toLowerCase().includes(arg1.toLowerCase());
-      });
-
-      return filtered.filter((item) => {
-        return item.username.toLowerCase().includes(arg2.toLowerCase());
-      })
-    } catch (e) {
-      throw new ValueError('Please provide correct value')
-    }
-  } else if (!arg1 && !arg2 && db) {
-    return db
-  } else {
-    throw new ValueError('Please provide correct value')
-  }
-}
-
 const resolvers = {
   Query: {
     users(parent, args, ctx, info) {
-      return search(args.searchByID, args.searchByName, users)
+      return search(args.searchByID, args.searchByUsername, users)
     },
     posts(parent, args, ctx, info) {
       return posts;
