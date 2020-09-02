@@ -24,7 +24,7 @@ const users = [
 ]
 const posts = [
   {
-    heading: 'Test heading',
+    title: 'Test heading',
     body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
     published: true,
     id: 'sdasfbbshdfbkshd',
@@ -32,7 +32,7 @@ const posts = [
     comments: null,
     rating: 0
   }, {
-    heading: 'Test heading 2',
+    title: 'Test heading 2',
     body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
     published: true,
     id: '333-111-112',
@@ -59,7 +59,7 @@ const typeDefs = `
   }
 
   type Post {
-    heading: String!
+    title: String!
     body: String!
     published: Boolean!
     id: ID!
@@ -92,10 +92,10 @@ const typeDefs = `
 const resolvers = {
   Query: {
     users(parent, args, ctx, info) {
-      return search(args.searchByID, args.searchByUsername, users)
+      return search(args.searchByID, args.searchByUsername, users, 'id', 'username')
     },
     posts(parent, args, ctx, info) {
-      return posts;
+      return search(args.searchByID, args.searchByTitle, posts, 'id', 'title')
     },
     me(parent, args, ctx, info) {
       return {username: 'test', id: '111-111-111', email: 'test@test.com', age: 21}
