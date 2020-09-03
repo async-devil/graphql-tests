@@ -156,5 +156,5 @@ const resolvers = {
 
 const server = new GraphQLServer({typeDefs, resolvers})
 server.start(opts, () => {
-  console.log('server started');
+  console.log(`server started on port ${opts.port}`);
 })
