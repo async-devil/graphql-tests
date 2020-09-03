@@ -69,7 +69,8 @@ const comments = [
 const typeDefs = `
   type Query {
     me: User!
-    posts(searchByID: String, searchByTitle: String): [Post]
+    posts(searchByAuthor: String, searchByTitle: String): [Post]
+    comments(searchByAuthor: String, searchByBody: String): [Comment]
     users(searchByID: String, searchByUsername: String): [User]
   }
 
@@ -109,7 +110,10 @@ const resolvers = {
       return search(args.searchByID, args.searchByUsername, users, 'id', 'username')
     },
     posts(parent, args, ctx, info) {
-      return search(args.searchByID, args.searchByTitle, posts, 'id', 'title')
+      return search(args.searchByAuthor, args.searchByTitle, posts, 'author.username', 'title')
+    },
+    comments(parent, args, ctx, info) {
+      return search(args.searchByAuthor, args.searchByBody, comments, 'author.username', 'body')
     },
     me(parent, args, ctx, info) {
       return {username: 'test', id: '111-111-111', email: 'test@test.com', age: 21}
