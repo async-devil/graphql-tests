@@ -27,18 +27,40 @@ const posts = [
     title: 'Test heading',
     body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
     published: true,
-    id: 'sdasfbbshdfbkshd',
-    author: null,
-    comments: null,
-    rating: 0
+    id: '#2111',
+    author: '#1111',
+    rating: 4.3
   }, {
     title: 'Test heading 2',
     body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
     published: true,
-    id: '333-111-112',
-    author: null,
-    comments: null,
-    rating: 0
+    id: '#2112',
+    author: '#1112',
+    rating: 5
+  }
+]
+
+const comments = [
+  {
+    body: 'Amazing!',
+    published: true,
+    id: '#3111',
+    author: '#1111',
+    post: '#2111'
+  },
+  {
+    body: 'Wow',
+    published: false,
+    id: '#3112',
+    author: '#1112',
+    post: '#2111'
+  },
+  {
+    body: 'OMG',
+    published: true,
+    id: '#3113',
+    author: '#1111',
+    post: '#2112'
   }
 ]
 
@@ -51,20 +73,13 @@ const typeDefs = `
     users(searchByID: String, searchByUsername: String): [User]
   }
 
-  type Product {
-    type: String!
-    id: ID!
-    stock: Int!
-    rating: Float!
-  }
-
   type Post {
     title: String!
     body: String!
     published: Boolean!
     id: ID!
-    author: User
-    comments: Comment
+    author: User!
+    comments: [Comment!]
     rating: Float!
   }
 
@@ -72,17 +87,16 @@ const typeDefs = `
     body: String!
     published: Boolean!
     id: ID!
-    author: User
-    post: Post
+    author: User!
+    post: Post!
   }
 
   type User {
     username: String!
     id: ID!
     email: String!
-    products: [Product]
-    posts: [Post]
-    comments: [Comment]
+    posts: [Post!]
+    comments: [Comment!]
     age: Int
   }
 `
@@ -100,7 +114,44 @@ const resolvers = {
     me(parent, args, ctx, info) {
       return {username: 'test', id: '111-111-111', email: 'test@test.com', age: 21}
     }
+  },
+  Post: {
+    author(parent, args, ctx, info) {
+      return users.find((user) => {
+        return user.id === parent.author
+      })
+    },
+    comments(parent, args, ctx, info) {
+      return comments.filter(comment => {
+        return comment.post === parent.id
+      });
+    }
+  },
+  User: {
+    posts(parent, args, ctx, info) {
+      return posts.filter(post => {
+        return post.author === parent.id
+      });
+    },
+    comments(parent, args, ctx, info) {
+      return comments.filter(comment => {
+        return comment.author === parent.id
+      });
+    }
+  },
+  Comment: {
+    author(parent, args, ctx, info) {
+      return users.find((user) => {
+        return user.id === parent.author
+      })
+    },
+    post(parent, args, ctx, info) {
+      return users.find((post) => {
+        return post.id === parent.post
+      })
+    }
   }
+
 }
 
 const server = new GraphQLServer({typeDefs, resolvers})

@@ -49,4 +49,5 @@ function search(arg1 = false, arg2 = false, db = false, q1 = false, q2 = false) 
     throw new ValueError('Please provide correct value')
   }
 }
+
 module.exports = search;
