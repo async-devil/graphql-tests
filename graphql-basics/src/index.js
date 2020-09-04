@@ -1,5 +1,5 @@
 import {GraphQLServer} from 'graphql-yoga'
-const search = require('./searchFunc.js');
+import Search from './SearchFunctions.js'
 
 const opts = {
   port: 4001
@@ -47,15 +47,13 @@ const comments = [
     id: '#3111',
     author: '#1111',
     post: '#2111'
-  },
-  {
+  }, {
     body: 'Wow',
     published: false,
     id: '#3112',
     author: '#1112',
     post: '#2111'
-  },
-  {
+  }, {
     body: 'OMG',
     published: true,
     id: '#3113',
@@ -107,13 +105,18 @@ const typeDefs = `
 const resolvers = {
   Query: {
     users(parent, args, ctx, info) {
-      return search(args.searchByID, args.searchByUsername, users, 'id', 'username')
+      var search = new Search(undefined, args.searchByID, args.searchByUsername, users, 'id', 'username')
+      return search.doubleElementSearch()
     },
     posts(parent, args, ctx, info) {
-      return search(args.searchByAuthor, args.searchByTitle, posts, 'author.username', 'title') // TODO: fix this shit
+      var search = new Search(undefined, undefined, args.searchByAuthor, posts, 'author', 'username')
+      var filtered = search.singleMultipleObjectSearch()
+      var search = new Search(undefined, undefined, args.searchByTitle, filtered, 'title', undefined)
+      return search.singleElementSearch()
     },
     comments(parent, args, ctx, info) {
-      return search(args.searchByAuthor, args.searchByBody, comments, 'author.username', 'body')
+      var filtered = new Search.singleMultipleObjectSearch(undefined, undefined, args.searchByAuthor, posts, 'author', 'username', undefined)
+      return new Search(undefined, undefined, args.searchByBody, filtered, 'body', undefined)
     },
     me(parent, args, ctx, info) {
       return {username: 'test', id: '111-111-111', email: 'test@test.com', age: 21}
