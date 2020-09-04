@@ -110,7 +110,7 @@ const resolvers = {
       return search(args.searchByID, args.searchByUsername, users, 'id', 'username')
     },
     posts(parent, args, ctx, info) {
-      return search(args.searchByAuthor, args.searchByTitle, posts, 'author.username', 'title')
+      return search(args.searchByAuthor, args.searchByTitle, posts, 'author.username', 'title') // TODO: fix this shit
     },
     comments(parent, args, ctx, info) {
       return search(args.searchByAuthor, args.searchByBody, comments, 'author.username', 'body')
