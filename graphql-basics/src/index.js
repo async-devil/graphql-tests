@@ -1,5 +1,7 @@
 import {GraphQLServer} from 'graphql-yoga'
-import Search from './SearchFunctions.js'
+const singleElementSearch = require('./modules/singleElementSearch.js');
+const doubleElementSearch = require('./modules/doubleElementSearch.js');
+const singleMultipleObjectSearch = require('./modules/singleMultipleObjectSearch.js');
 
 const opts = {
   port: 4001
@@ -67,7 +69,7 @@ const comments = [
 const typeDefs = `
   type Query {
     me: User!
-    posts(searchByAuthor: String, searchByTitle: String): [Post]
+    posts(searchByAuthor: String, searchByTitle: String): Post
     comments(searchByAuthor: String, searchByBody: String): [Comment]
     users(searchByID: String, searchByUsername: String): [User]
   }
@@ -105,18 +107,16 @@ const typeDefs = `
 const resolvers = {
   Query: {
     users(parent, args, ctx, info) {
-      var search = new Search(undefined, args.searchByID, args.searchByUsername, users, 'id', 'username')
-      return search.doubleElementSearch()
+      return doubleElementSearch(args.searchByID, args.searchByUsername, users, 'id', 'username')
     },
     posts(parent, args, ctx, info) {
-      var search = new Search(undefined, undefined, args.searchByAuthor, posts, 'author', 'username')
-      var filtered = search.singleMultipleObjectSearch()
-      var search = new Search(undefined, undefined, args.searchByTitle, filtered, 'title', undefined)
-      return search.singleElementSearch()
+      var filtered = singleMultipleObjectSearch(args.searchByAuthor, posts, 'author', 'username')
+      return singleElementSearch(args.searchByTitle, filtered, 'title')
     },
     comments(parent, args, ctx, info) {
-      var filtered = new Search.singleMultipleObjectSearch(undefined, undefined, args.searchByAuthor, posts, 'author', 'username', undefined)
-      return new Search(undefined, undefined, args.searchByBody, filtered, 'body', undefined)
+      var filtered = singleMultipleObjectSearch(args.searchByAuthor, comments, 'author', 'username')
+      console.log(filtered)
+      return singleElementSearch(args.searchByBody, filtered, 'body')
     },
     me(parent, args, ctx, info) {
       return {username: 'test', id: '111-111-111', email: 'test@test.com', age: 21}
