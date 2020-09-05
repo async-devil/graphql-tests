@@ -7,7 +7,7 @@ function doubleElementSearch(dataToSearch1, dataToSearch2, dataBase, searchObjec
       return item[searchObject1].toLowerCase().includes(dataToSearch1.toLowerCase()); //then by arg1
     })
   } catch (e) {
-    if (!dataToSearch1 || !dataToSearch2 || !dataBase || !searchObject1 || !searchObject2) {
+    if (!dataToSearch1 && !dataToSearch2 && !dataBase && !searchObject1 && !searchObject2) {
       return false
     }
     return dataBase

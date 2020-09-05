@@ -4,7 +4,7 @@ function singleElementSearch(dataToSearch, dataBase, searchObject) {
       return item[searchObject].toLowerCase().includes(dataToSearch.toLowerCase());
     });
   } catch (err) {
-    if (!dataToSearch || !dataBase || !searchObject) {
+    if (!dataToSearch && !dataBase && !searchObject) {
       return false
     }
     return dataBase
