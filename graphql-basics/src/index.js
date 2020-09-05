@@ -1,68 +1,21 @@
 import {GraphQLServer} from 'graphql-yoga'
+const fs = require('fs');
+
 const singleElementSearch = require('./modules/singleElementSearch.js');
 const doubleElementSearch = require('./modules/doubleElementSearch.js');
-const singleMultipleObjectSearch = require('./modules/singleMultipleObjectSearch.js');
+//const singleMultipleObjectSearch = require('./modules/singleMultipleObjectSearch.js');
 
 const opts = {
   port: 4001
 }
+//demo db
+var data = JSON.parse(fs.readFileSync(`${__dirname}/database.json`))
 
-//demo DB
-const users = [
-  {
-    username: 'async-devil',
-    id: '#1111',
-    email: 'async.devil@gmail.com',
-    age: 27
-  }, {
-    username: 'test_user',
-    id: '#1112',
-    email: 'test@test.com'
-  }, {
-    username: 'test_user2',
-    id: '#1113',
-    email: 'test2@test.com'
-  }
-]
-const posts = [
-  {
-    title: 'Test heading',
-    body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-    published: true,
-    id: '#2111',
-    author: '#1111',
-    rating: 4.3
-  }, {
-    title: 'Test heading 2',
-    body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-    published: true,
-    id: '#2112',
-    author: '#1112',
-    rating: 5
-  }
-]
-
-const comments = [
-  {
-    body: 'Amazing!',
-    published: true,
-    id: '#3111',
-    author: '#1111',
-    post: '#2111'
-  }, {
-    body: 'Wow',
-    published: false,
-    id: '#3112',
-    author: '#1112',
-    post: '#2111'
-  }, {
-    body: 'OMG',
-    published: true,
-    id: '#3113',
-    author: '#1111',
-    post: '#2112'
-  }
-]
+var {
+  users,
+  posts,
+  comments
+} = data
 
 //Type definitions
 
