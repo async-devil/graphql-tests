@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Test heading",
+    "body": "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
+    "published": true,
+    "id": "#2111",
+    "author": "#1111",
+    "rating": 4.3
+  },
+  {
+    "title": "Test heading 2",
+    "body": "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
+    "published": true,
+    "id": "#2112",
+    "author": "#1112",
+    "rating": 5
+  }
+]
