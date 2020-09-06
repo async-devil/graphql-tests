@@ -6,6 +6,7 @@ const singleElementSearch = require('./modules/singleElementSearch.js');
 const doubleElementSearch = require('./modules/doubleElementSearch.js');
 //const singleMultipleObjectSearch = require('./modules/singleMultipleObjectSearch.js');
 const addUser = require('./modules/addUser.js');
+const addPost = require('./modules/addPost.js');
 
 // const pushAllData = function(users, posts, comments) {
 //   var data = [users, posts, comments,];
@@ -44,6 +45,9 @@ const typeDefs = `
 
   type Mutation {
     createUser(username: String!, email: String!): User!
+    createPost(title: String!,
+    body: String!,
+    published: Boolean!) Post!
   }
 
   type Post {
@@ -113,6 +117,13 @@ const resolvers = {
       pushData(users, 'users');
 
       return newUser;
+    },
+    createPost(parent, args, ctx, info) {
+      var newPost = addPost(posts, args);
+      posts.push(newPost)
+      pushData(posts, 'posts')
+
+      return newPost;
     }
   },
   Post: {
