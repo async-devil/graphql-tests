@@ -24,8 +24,7 @@ function addUser(users, args) {
     //checking if email valid
     throw new Error("Invalid email")
   }
-
-  console.log(users);
+  
   var emailTaken = users.some(user => user.email === email);
   //checking if email used
   var usernameTaken = users.some(user => users.username === username);
