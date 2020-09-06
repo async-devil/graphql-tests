@@ -25,12 +25,20 @@ const opts = {
 }
 
 try {
-  var users = JSON.parse(readFileSync(`${__dirname}/database/users.json`));
-  var posts = JSON.parse(readFileSync(`${__dirname}/database/posts.json`));
-  var comments = JSON.parse(readFileSync(`${__dirname}/database/comments.json`));
+  var users = JSON.parse(fs.readFileSync(`${__dirname}/database/users.json`));
 } catch (e) {
   var users = [];
+}
+
+try {
+  var posts = JSON.parse(fs.readFileSync(`${__dirname}/database/posts.json`));
+} catch (err) {
   var posts = [];
+}
+
+try {
+  var comments = JSON.parse(fs.readFileSync(`${__dirname}/database/comments.json`));
+} catch (err) {
   var comments = [];
 }
 
@@ -47,7 +55,8 @@ const typeDefs = `
     createUser(username: String!, email: String!): User!
     createPost(title: String!,
     body: String!,
-    published: Boolean!) Post!
+    published: Boolean!,
+    author: ID!): Post!
   }
 
   type Post {
@@ -119,7 +128,8 @@ const resolvers = {
       return newUser;
     },
     createPost(parent, args, ctx, info) {
-      var newPost = addPost(posts, args);
+      console.log(users);
+      var newPost = addPost(posts, args, users);
       posts.push(newPost)
       pushData(posts, 'posts')
 
