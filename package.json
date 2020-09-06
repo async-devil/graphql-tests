@@ -4,7 +4,7 @@
   "description": "Tests while studying graphql course",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon graphql-basics/src/index.js --exec babel-node",
+    "start": "nodemon graphql-basics/src/index.js --config nodemon.json --exec babel-node",
     "test": "echo Hello"
   },
   "repository": {
@@ -25,7 +25,9 @@
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "graphql-yoga": "^1.16.7"
+    "graphql-yoga": "^1.16.7",
+    "uuid": "^8.3.0",
+    "validator": "^13.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
