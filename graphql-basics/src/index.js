@@ -131,21 +131,21 @@ const resolvers = {
   },
   Mutation: {
     createUser(parent, args, ctx, info) {
-      var newUser = addUser(users, args);
+      var newUser = addUser(users, args.data);
       users.push(newUser)
       pushData(users, 'users');
 
       return newUser;
     },
     createPost(parent, args, ctx, info) {
-      var newPost = addPost(posts, args, users);
+      var newPost = addPost(posts, args.data, users);
       posts.push(newPost)
       pushData(posts, 'posts')
 
       return newPost;
     },
     createComment(parent, args, ctx, info) {
-      var newComment = addComments(comments, args, users, posts);
+      var newComment = addComments(comments, args.data, users, posts);
       comments.push(newComment)
       pushData(comments, 'comments')
 
