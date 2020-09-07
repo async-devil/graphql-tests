@@ -174,7 +174,7 @@ const resolvers = {
       })
     },
     post(parent, args, ctx, info) {
-      return users.find((post) => {
+      return posts.find((post) => {
         return post.id === parent.post
       })
     },
