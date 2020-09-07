@@ -15,7 +15,7 @@ const pushData = (data, fileName) => {
 
 const opts = {
   //server options
-  port: 4001
+  port: 4002
 }
 
 try {
@@ -47,14 +47,16 @@ const typeDefs = `
 
   type Mutation {
     createUser(username: String!, email: String!): User!
+
     createPost(title: String!,
     body: String!,
     published: Boolean!,
     author: ID!): Post!
+
     createComment(body: String!,
     published: Boolean!,
     author: ID!,
-    post: ID!)
+    post: ID!): Comment!
   }
 
   type Post {
@@ -125,12 +127,18 @@ const resolvers = {
       return newUser;
     },
     createPost(parent, args, ctx, info) {
-      console.log(users);
       var newPost = addPost(posts, args, users);
       posts.push(newPost)
       pushData(posts, 'posts')
 
       return newPost;
+    },
+    createComment(parent, args, ctx, info) {
+      var newComment = addComments(comments, args, users, posts);
+      comments.push(newComment)
+      pushData(comments, 'comments')
+
+      return newComment;
     }
   },
   Post: {
