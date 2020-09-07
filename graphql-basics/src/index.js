@@ -2,18 +2,12 @@ import {GraphQLServer} from 'graphql-yoga'
 // import uuidv4 from 'uuid/v4'
 const fs = require('fs');
 
-const singleElementSearch = require('./modules/singleElementSearch.js');
-const doubleElementSearch = require('./modules/doubleElementSearch.js');
-//const singleMultipleObjectSearch = require('./modules/singleMultipleObjectSearch.js');
-const addUser = require('./modules/addUser.js');
-const addPost = require('./modules/addPost.js');
-
-// const pushAllData = function(users, posts, comments) {
-//   var data = [users, posts, comments,];
-//   add all data to one array
-//   fs.writeFileSync(`${__dirname}/database.json`, JSON.stringify(data));
-//   rewriting database.json file
-// }
+const singleElementSearch = require('./modules/searchFunctions/singleElementSearch.js');
+const doubleElementSearch = require('./modules/searchFunctions/doubleElementSearch.js');
+//const singleMultipleObjectSearch = require('./modules/searchFunctions/singleMultipleObjectSearch.js');
+const addUser = require('./modules/addFunctions/addUser.js');
+const addPost = require('./modules/addFunctions/addPost.js');
+const addComments = require('./modules/addFunctions/addComment.js');
 
 const pushData = (data, fileName) => {
   fs.writeFileSync(`${__dirname}/database/${fileName}.json`, JSON.stringify(data));
@@ -57,6 +51,10 @@ const typeDefs = `
     body: String!,
     published: Boolean!,
     author: ID!): Post!
+    createComment(body: String!,
+    published: Boolean!,
+    author: ID!,
+    post: ID!)
   }
 
   type Post {
@@ -66,7 +64,6 @@ const typeDefs = `
     id: ID!
     author: User!
     comments: [Comment!]
-    rating: Float!
   }
 
   type Comment {
