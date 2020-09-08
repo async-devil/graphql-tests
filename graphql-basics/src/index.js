@@ -9,6 +9,8 @@ const addUser = require('./modules/addFunctions/addUser.js');
 const addPost = require('./modules/addFunctions/addPost.js');
 const addComments = require('./modules/addFunctions/addComment.js');
 
+const removeUser = require('./modules/deleteFunctions/deleteUser.js');
+
 const pushData = (data, fileName) => {
   fs.writeFileSync(`${__dirname}/database/${fileName}.json`, JSON.stringify(data));
 }
@@ -139,35 +141,16 @@ const resolvers = {
       return newUser;
     },
     deleteUser(parent, args, ctx, info) {
-      var userIndex = users.findIndex((user) => user.id === args.id);
+      console.log(users, posts);
+      var data = removeUser(users, posts, comments, args)
 
-      if (userIndex === -1) {
-        throw new Error('User not found')
-      }
-
-      var deletedUser = users.splice(userIndex, 1);
-
-      posts = posts.filter(post => {
-        var match = post.author === args.id
-
-        if (match) {
-          comments = comments.filter((comment) => {
-            return comment.post !== post.id
-          })
-        }
-
-        return !match
-      });
-
-      comments = comments.filter((comment) => {
-        return comment.author !== args.id
-      })
+      var {users, posts, comments, deletedUser} = data
 
       pushData(users, 'users');
       pushData(posts, 'posts');
       pushData(comments, 'comments');
 
-      return deletedUser[0]
+      return deletedUser;
     },
     createPost(parent, args, ctx, info) {
       var newPost = addPost(posts, args.data, users);
