@@ -46,17 +46,29 @@ const typeDefs = `
   }
 
   type Mutation {
-    createUser(username: String!, email: String!): User!
+    createUser(data: createUserInput): User!
+    deleteUser(id: ID!): User!
+    createPost(data: createPostInput): Post!
+    createComment(data: createCommentsInput): Comment!
+  }
 
-    createPost(title: String!,
+  input createUserInput {
+    username: String!,
+    email: String!
+  }
+
+  input createPostInput {
+    title: String!,
     body: String!,
     published: Boolean!,
-    author: ID!): Post!
+    author: ID!
+  }
 
-    createComment(body: String!,
+  input createCommentsInput {
+    body: String!,
     published: Boolean!,
     author: ID!,
-    post: ID!): Comment!
+    post: ID!
   }
 
   type Post {
@@ -120,21 +132,52 @@ const resolvers = {
   },
   Mutation: {
     createUser(parent, args, ctx, info) {
-      var newUser = addUser(users, args);
+      var newUser = addUser(users, args.data);
       users.push(newUser)
       pushData(users, 'users');
 
       return newUser;
     },
+    deleteUser(parent, args, ctx, info) {
+      var userIndex = users.findIndex((user) => user.id === args.id);
+
+      if (userIndex === -1) {
+        throw new Error('User not found')
+      }
+
+      var deletedUser = users.splice(userIndex, 1);
+
+      posts = posts.filter(post => {
+        var match = post.author === args.id
+
+        if (match) {
+          comments = comments.filter((comment) => {
+            return comment.post !== post.id
+          })
+        }
+
+        return !match
+      });
+
+      comments = comments.filter((comment) => {
+        return comment.author !== args.id
+      })
+
+      pushData(users, 'users');
+      pushData(posts, 'posts');
+      pushData(comments, 'comments');
+
+      return deletedUser[0]
+    },
     createPost(parent, args, ctx, info) {
-      var newPost = addPost(posts, args, users);
+      var newPost = addPost(posts, args.data, users);
       posts.push(newPost)
       pushData(posts, 'posts')
 
       return newPost;
     },
     createComment(parent, args, ctx, info) {
-      var newComment = addComments(comments, args, users, posts);
+      var newComment = addComments(comments, args.data, users, posts);
       comments.push(newComment)
       pushData(comments, 'comments')
 
