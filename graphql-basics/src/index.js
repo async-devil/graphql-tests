@@ -9,6 +9,8 @@ const addUser = require('./modules/addFunctions/addUser.js');
 const addPost = require('./modules/addFunctions/addPost.js');
 const addComments = require('./modules/addFunctions/addComment.js');
 
+const removeUser = require('./modules/deleteFunctions/deleteUser.js');
+
 const pushData = (data, fileName) => {
   fs.writeFileSync(`${__dirname}/database/${fileName}.json`, JSON.stringify(data));
 }
@@ -137,6 +139,24 @@ const resolvers = {
       pushData(users, 'users');
 
       return newUser;
+    },
+    deleteUser(parent, args, ctx, info) {
+      var deletedUser;
+
+      function updatingData(users, posts, comments, args, callback) {
+        var data = removeUser(users, posts, comments, args)
+        callback(data)
+      }
+      updatingData(users, posts, comments, args, (data) => {
+        var {users, posts, comments} = data
+        deletedUser = data.deletedUser
+        
+        pushData(users, 'users');
+        pushData(posts, 'posts');
+        pushData(comments, 'comments');
+      })
+
+      return deletedUser;
     },
     createPost(parent, args, ctx, info) {
       var newPost = addPost(posts, args.data, users);
