@@ -141,14 +141,20 @@ const resolvers = {
       return newUser;
     },
     deleteUser(parent, args, ctx, info) {
-      console.log(users, posts);
-      var data = removeUser(users, posts, comments, args)
+      var deletedUser;
 
-      var {users, posts, comments, deletedUser} = data
-
-      pushData(users, 'users');
-      pushData(posts, 'posts');
-      pushData(comments, 'comments');
+      function updatingData(users, posts, comments, args, callback) {
+        var data = removeUser(users, posts, comments, args)
+        callback(data)
+      }
+      updatingData(users, posts, comments, args, (data) => {
+        var {users, posts, comments} = data
+        deletedUser = data.deletedUser
+        
+        pushData(users, 'users');
+        pushData(posts, 'posts');
+        pushData(comments, 'comments');
+      })
 
       return deletedUser;
     },

@@ -1,5 +1,4 @@
 function deleteUser(users, posts, comments, args) {
-  console.log(users);
   var userIndex = users.findIndex((user) => user.id === args.id);
 
   if (userIndex === -1) {
