@@ -48,6 +48,7 @@ const typeDefs = `
   type Mutation {
     createUser(data: createUserInput): User!
     createPost(data: createPostInput): Post!
+    deleteUser(id: ID!): User!
     createComment(data: createCommentsInput): Comment!
   }
 
