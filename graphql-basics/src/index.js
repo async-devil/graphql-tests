@@ -11,6 +11,7 @@ const addComments = require('./modules/addFunctions/addComment.js');
 
 const removeUser = require('./modules/deleteFunctions/deleteUser.js');
 const removePost = require('./modules/deleteFunctions/deletePost.js');
+const removeComment = require('./modules/deleteFunctions/deleteComment.js');
 
 const pushData = (data, fileName) => {
   fs.writeFileSync(`${__dirname}/database/${fileName}.json`, JSON.stringify(data));
@@ -54,6 +55,7 @@ const typeDefs = `
     createPost(data: createPostInput): Post!
     deletePost(id: ID!): Post!
     createComment(data: createCommentsInput): Comment!
+    deleteComment(id: ID!): Comment!
   }
 
   input createUserInput {
@@ -191,6 +193,23 @@ const resolvers = {
       pushData(comments, 'comments')
 
       return newComment;
+    },
+    deleteComment(parent, args, ctx, info) {
+      var deletedComment;
+
+      function gettingData(comments, args, callback) {
+        var data = removeComment(comments, args)
+        callback(data)
+      }
+
+      gettingData(comments, args, (data) => {
+        var {comments} = data;
+        deletedComment = data.deletedComment
+
+        pushData(comments, 'comments')
+      })
+
+      return deletedComment;
     }
   },
   Post: {
