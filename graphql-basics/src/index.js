@@ -10,6 +10,7 @@ const addPost = require('./modules/addFunctions/addPost.js');
 const addComments = require('./modules/addFunctions/addComment.js');
 
 const removeUser = require('./modules/deleteFunctions/deleteUser.js');
+const removePost = require('./modules/deleteFunctions/deletePost.js');
 
 const pushData = (data, fileName) => {
   fs.writeFileSync(`${__dirname}/database/${fileName}.json`, JSON.stringify(data));
@@ -17,7 +18,7 @@ const pushData = (data, fileName) => {
 
 const opts = {
   //server options
-  port: 4002
+  port: 4003
 }
 
 try {
@@ -51,6 +52,7 @@ const typeDefs = `
     createUser(data: createUserInput): User!
     deleteUser(id: ID!): User!
     createPost(data: createPostInput): Post!
+    deletePost(id: ID!): Post!
     createComment(data: createCommentsInput): Comment!
   }
 
@@ -143,14 +145,14 @@ const resolvers = {
     deleteUser(parent, args, ctx, info) {
       var deletedUser;
 
-      function updatingData(users, posts, comments, args, callback) {
+      function gettingData(users, posts, comments, args, callback) {
         var data = removeUser(users, posts, comments, args)
         callback(data)
       }
-      updatingData(users, posts, comments, args, (data) => {
+      gettingData(users, posts, comments, args, (data) => {
         var {users, posts, comments} = data
         deletedUser = data.deletedUser
-        
+
         pushData(users, 'users');
         pushData(posts, 'posts');
         pushData(comments, 'comments');
@@ -164,6 +166,24 @@ const resolvers = {
       pushData(posts, 'posts')
 
       return newPost;
+    },
+    deletePost(parent, args, ctx, info) {
+      var deletedPost
+
+      function gettingData(posts, comments, args, callback) {
+        var data = removePost(posts, comments, args)
+        callback(data)
+      }
+
+      gettingData(posts, comments, args, (data) => {
+        var {posts, comments} = data;
+        deletedPost = data.deletedPost
+
+        pushData(posts, 'posts');
+        pushData(comments, 'comments')
+      })
+
+      return deletedPost;
     },
     createComment(parent, args, ctx, info) {
       var newComment = addComments(comments, args.data, users, posts);
