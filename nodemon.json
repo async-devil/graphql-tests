@@ -1,3 +1,7 @@
 {
-  "ignore": ["database/*"]
+  "ignore": ["database/*"],
+  "ext": "js,graphql,json",
+  "execMap": {
+    "js": "babel-node"
+  }
 }
