@@ -17,8 +17,7 @@ const pushData = (data, fileName) => {
   fs.writeFileSync(`${__dirname}/database/${fileName}.json`, JSON.stringify(data));
 }
 
-const opts = {
-  //server options
+const opts = { //server options
   port: 4003
 }
 
@@ -40,118 +39,53 @@ try {
   var comments = [];
 }
 
-//Type definitions
-const typeDefs = `
-  type Query {
-    me: User!
-    posts(searchByAuthor: String, searchByTitle: String): [Post]
-    comments(searchByAuthor: String, searchByBody: String): [Comment]
-    users(searchByID: String, searchByUsername: String): [User]
-  }
-
-  type Mutation {
-    createUser(data: createUserInput): User!
-    deleteUser(id: ID!): User!
-    createPost(data: createPostInput): Post!
-    deletePost(id: ID!): Post!
-    createComment(data: createCommentsInput): Comment!
-    deleteComment(id: ID!): Comment!
-  }
-
-  input createUserInput {
-    username: String!,
-    email: String!
-  }
-
-  input createPostInput {
-    title: String!,
-    body: String!,
-    published: Boolean!,
-    author: ID!
-  }
-
-  input createCommentsInput {
-    body: String!,
-    published: Boolean!,
-    author: ID!,
-    post: ID!
-  }
-
-  type Post {
-    title: String!
-    body: String!
-    published: Boolean!
-    id: ID!
-    author: User!
-    comments: [Comment!]
-  }
-
-  type Comment {
-    body: String!
-    published: Boolean!
-    id: ID!
-    author: User!
-    post: Post!
-  }
-
-  type User {
-    username: String!
-    id: ID!
-    email: String!
-    posts: [Post!]
-    comments: [Comment!]
-  }
-`
-
+var db = {users, posts, comments}
 //Resolvers
 
 const resolvers = {
   Query: {
-    users(parent, args, ctx, info) {
-      return doubleElementSearch(args.searchByID, args.searchByUsername, users, 'id', 'username')
+    users(parent, args, {db}, info) {
+      return doubleElementSearch(args.searchByID, args.searchByUsername, db.users, 'id', 'username')
     },
-    posts(parent, args, ctx, info) {
+    posts(parent, args, {db}, info) {
       if (args.searchByAuthor != '') {
-        var data = singleElementSearch(args.searchByAuthor, users, 'username')
+        var data = singleElementSearch(args.searchByAuthor, db.users, 'username')
         try {
           args.searchByAuthor = data[0].id
         } catch (e) {
           return []
         }
       }
-      return doubleElementSearch(args.searchByAuthor, args.searchByTitle, posts, 'author', 'title')
+      return doubleElementSearch(args.searchByAuthor, args.searchByTitle, db.posts, 'author', 'title')
     },
-    comments(parent, args, ctx, info) {
+    comments(parent, args, {db}, info) {
       if (args.searchByAuthor != '') {
-        var data = singleElementSearch(args.searchByAuthor, users, 'username')
+        var data = singleElementSearch(args.searchByAuthor, db.users, 'username')
         try {
           args.searchByAuthor = data[0].id
         } catch (e) {
           return []
         }
       }
-      return doubleElementSearch(args.searchByAuthor, args.searchByBody, comments, 'author', 'body')
-    },
-    me(parent, args, ctx, info) {
-      return {username: 'test', id: '111-111-111', email: 'test@test.com', age: 21,}
-    },
+      return doubleElementSearch(args.searchByAuthor, args.searchByBody, db.comments, 'author', 'body')
+    }
   },
   Mutation: {
-    createUser(parent, args, ctx, info) {
-      var newUser = addUser(users, args.data);
-      users.push(newUser)
-      pushData(users, 'users');
+    createUser(parent, args, {db}, info) {
+      var newUser = addUser(db.users, args.data);
+      db.users.push(newUser)
+      pushData(db.users, 'users');
 
       return newUser;
     },
-    deleteUser(parent, args, ctx, info) {
+    deleteUser(parent, args, {db}, info) {
       var deletedUser;
 
       function gettingData(users, posts, comments, args, callback) {
         var data = removeUser(users, posts, comments, args)
         callback(data)
       }
-      gettingData(users, posts, comments, args, (data) => {
+      gettingData(db.users, db.posts, db.comments, args, (data) => {
         var {users, posts, comments} = data
         deletedUser = data.deletedUser
 
@@ -162,14 +96,14 @@ const resolvers = {
 
       return deletedUser;
     },
-    createPost(parent, args, ctx, info) {
-      var newPost = addPost(posts, args.data, users);
-      posts.push(newPost)
-      pushData(posts, 'posts')
+    createPost(parent, args, {db}, info) {
+      var newPost = addPost(db.posts, args.data, db.users);
+      db.posts.push(newPost)
+      pushData(db.posts, 'posts')
 
       return newPost;
     },
-    deletePost(parent, args, ctx, info) {
+    deletePost(parent, args, {db}, info) {
       var deletedPost
 
       function gettingData(posts, comments, args, callback) {
@@ -177,7 +111,7 @@ const resolvers = {
         callback(data)
       }
 
-      gettingData(posts, comments, args, (data) => {
+      gettingData(db.posts, db.comments, args, (data) => {
         var {posts, comments} = data;
         deletedPost = data.deletedPost
 
@@ -187,14 +121,14 @@ const resolvers = {
 
       return deletedPost;
     },
-    createComment(parent, args, ctx, info) {
-      var newComment = addComments(comments, args.data, users, posts);
-      comments.push(newComment)
-      pushData(comments, 'comments')
+    createComment(parent, args, {db}, info) {
+      var newComment = addComments(db.comments, args.data, db.users, db.posts);
+      db.comments.push(newComment)
+      pushData(db.comments, 'comments')
 
       return newComment;
     },
-    deleteComment(parent, args, ctx, info) {
+    deleteComment(parent, args, {db}, info) {
       var deletedComment;
 
       function gettingData(comments, args, callback) {
@@ -202,7 +136,7 @@ const resolvers = {
         callback(data)
       }
 
-      gettingData(comments, args, (data) => {
+      gettingData(db.comments, args, (data) => {
         var {comments} = data;
         deletedComment = data.deletedComment
 
@@ -213,46 +147,52 @@ const resolvers = {
     }
   },
   Post: {
-    author(parent, args, ctx, info) {
-      return users.find((user) => {
+    author(parent, args, {db}, info) {
+      return db.users.find((user) => {
         return user.id === parent.author
       })
     },
-    comments(parent, args, ctx, info) {
-      return comments.filter(comment => {
+    comments(parent, args, {db}, info) {
+      return db.comments.filter(comment => {
         return comment.post === parent.id
       });
     },
   },
   User: {
-    posts(parent, args, ctx, info) {
-      return posts.filter(post => {
+    posts(parent, args, {db}, info) {
+      return db.posts.filter(post => {
         return post.author === parent.id
         //if post author (id value) = user.id then user.posts = posts that filterd
       });
     },
-    comments(parent, args, ctx, info) {
-      return comments.filter(comment => {
+    comments(parent, args, {db}, info) {
+      return db.comments.filter(comment => {
         return comment.author === parent.id
       });
     },
   },
   Comment: {
-    author(parent, args, ctx, info) {
-      return users.find((user) => {
+    author(parent, args, {db}, info) {
+      return db.users.find((user) => {
         return user.id === parent.author
         //if user.id = comment.author then comment.author = founded user
       })
     },
-    post(parent, args, ctx, info) {
-      return posts.find((post) => {
+    post(parent, args, {db}, info) {
+      return db.posts.find((post) => {
         return post.id === parent.post
       })
     },
   },
 }
 
-const server = new GraphQLServer({typeDefs, resolvers,})
+const server = new GraphQLServer({
+  typeDefs: `${__dirname}/typeDefs.graphql`, //type definitions
+  resolvers,
+  context: {
+    db
+  }
+})
 server.start(opts, () => {
   console.log(`server started on port ${opts.port}`);
 })
