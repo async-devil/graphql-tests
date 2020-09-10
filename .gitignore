@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+graphql-basics/src/database/comments.json
+graphql-basics/src/database/posts.json
+graphql-basics/src/database/users.json
