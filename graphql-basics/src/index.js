@@ -11,6 +11,7 @@ const addComments = require('./modules/addFunctions/addComment.js');
 
 const removeUser = require('./modules/deleteFunctions/deleteUser.js');
 const removePost = require('./modules/deleteFunctions/deletePost.js');
+const removeComment = require('./modules/deleteFunctions/deleteComment.js');
 
 const pushData = (data, fileName) => {
   fs.writeFileSync(`${__dirname}/database/${fileName}.json`, JSON.stringify(data));
