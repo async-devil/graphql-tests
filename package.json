@@ -4,18 +4,14 @@
   "description": "Tests while studying graphql course",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon graphql-basics/src/index.js --config nodemon.json --exec babel-node",
+    "start": "nodemon graphql-basics/src/index.js --config nodemon.json ",
     "test": "echo Hello"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/async-devil/graphql-tests.git"
   },
-  "keywords": [
-    "graphQl",
-    "nodejs",
-    "API"
-  ],
+  "keywords": ["graphQl", "nodejs", "API"],
   "author": "async-devil",
   "license": "MIT",
   "bugs": {
