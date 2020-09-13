@@ -11,7 +11,11 @@
     "type": "git",
     "url": "git+https://github.com/async-devil/graphql-tests.git"
   },
-  "keywords": ["graphQl", "nodejs", "API"],
+  "keywords": [
+    "graphQl",
+    "nodejs",
+    "API"
+  ],
   "author": "async-devil",
   "license": "MIT",
   "bugs": {
@@ -21,7 +25,8 @@
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "graphql-yoga": "^1.16.7",
+    "graphql": "^15.3.0",
+    "graphql-yoga": "^1.18.3",
     "uuid": "^8.3.0",
     "validator": "^13.1.1"
   },
