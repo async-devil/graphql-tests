@@ -60,6 +60,6 @@ const server = new GraphQLServer({
 console.log(Query, Mutation);
 /* Starting server */
 server.start(opts, () => {
-  console.log(`Server started on port ${opts.port}`);
+  console.log(`Server started on localhost:${opts.port}`);
 })
 /*  */
