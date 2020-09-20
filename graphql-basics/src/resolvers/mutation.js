@@ -13,7 +13,7 @@ const pushData = (data, fileName) => {
 const mutation = {
   createUser(parent, args, {
     db,
-  }, info) {
+  }) {
     const newUser = addUser(db.users, args.data);
     db.users.push(newUser);
     pushData(db.users, 'users');
@@ -21,7 +21,7 @@ const mutation = {
   },
   deleteUser(parent, args, {
     db,
-  }, info) {
+  }) {
     let deletedUser;
 
     function gettingData(users, posts, comments, callback) {
@@ -43,7 +43,7 @@ const mutation = {
   },
   updateUser(parent, args, {
     db,
-  }, info) {
+  }) {
     const userToUpdate = db.users.find((user) => user.id === args.id);
     if (!userToUpdate) {
       throw new Error('User not found');
@@ -51,7 +51,7 @@ const mutation = {
   },
   createPost(parent, args, {
     db,
-  }, info) {
+  }) {
     const newPost = addPost(db.posts, args.data, db.users);
     db.posts.push(newPost);
     pushData(db.posts, 'posts');
@@ -59,7 +59,7 @@ const mutation = {
   },
   deletePost(parent, args, {
     db,
-  }, info) {
+  }) {
     let deletedPost;
 
     function gettingData(posts, comments, callback) {
@@ -79,7 +79,7 @@ const mutation = {
   },
   createComment(parent, args, {
     db,
-  }, info) {
+  }) {
     const newComment = addComments(db.comments, args.data, db.users, db.posts);
     db.comments.push(newComment);
     pushData(db.comments, 'comments');
@@ -87,7 +87,7 @@ const mutation = {
   },
   deleteComment(parent, args, {
     db,
-  }, info) {
+  }) {
     let deletedComment;
 
     function gettingData(comments, callback) {
