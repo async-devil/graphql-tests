@@ -1,20 +1,16 @@
 const post = {
   author(parent, args, {
-    db
-  }, info) {
-    return db.users.find((user) => {
-      return user.id === parent.author
-    })
+    db,
+  }) {
+    return db.users.find((user) => user.id === parent.author);
   },
   comments(parent, args, {
-    db
-  }, info) {
-    return db.comments.filter(comment => {
-      return comment.post === parent.id
-    });
+    db,
+  }) {
+    return db.comments.filter((comment) => comment.post === parent.id);
   },
-}
+};
 
 export {
-  post as default
-}
+  post as default,
+};
