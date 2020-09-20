@@ -4,18 +4,15 @@
   "description": "Tests while studying graphql course",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon graphql-basics/src/index.js --config nodemon.json ",
-    "test": "echo Hello"
+    "start": "clear && nodemon graphql-basics/src/index.js --config nodemon.json",
+    "test": "echo Hello",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/async-devil/graphql-tests.git"
   },
-  "keywords": [
-    "graphQl",
-    "nodejs",
-    "API"
-  ],
+  "keywords": ["graphQl", "nodejs", "API"],
   "author": "async-devil",
   "license": "MIT",
   "bugs": {
@@ -32,6 +29,9 @@
     "validator": "^13.1.1"
   },
   "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.21.2",
     "nodemon": "^2.0.4"
   }
 }
