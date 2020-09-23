@@ -7,9 +7,6 @@ const removeUser = require('../modules/deleteFunctions/deleteUser.js');
 const removePost = require('../modules/deleteFunctions/deletePost.js');
 const removeComment = require('../modules/deleteFunctions/deleteComment.js');
 
-const pushData = (data, fileName) => {
-  fs.writeFileSync(`${__dirname}/../database/${fileName}.json`, JSON.stringify(data));
-};
 const mutation = {
   createUser(parent, args, {
     db,
@@ -44,10 +41,16 @@ const mutation = {
   updateUser(parent, args, {
     db,
   }) {
-    const userToUpdate = db.users.find((user) => user.id === args.id);
-    if (!userToUpdate) {
-      throw new Error('User not found');
-    }
+    // function gettingData(users, callback) {
+    //   const data = updateUser(users, args);
+    //   callback(data)
+    // }
+    //
+    // gettingData(db.users, args, (data) => {
+    //
+    // })
+    const updatedUser = updateUser(db.users, args);
+    pus;
   },
   createPost(parent, args, {
     db,
