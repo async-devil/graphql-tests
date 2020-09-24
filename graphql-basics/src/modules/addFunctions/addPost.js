@@ -10,7 +10,8 @@ function addPost(posts, args, users) {
     throw new Error('Invalid data');
   }
 
-  args.forEach((item) => {
+  for (let i = 0, len = args.length; i < len; i++) {
+    const item = args[i];
     // checking if items not empty
     if (typeof item === 'boolean') {
       return;
@@ -18,7 +19,7 @@ function addPost(posts, args, users) {
     if (validator.isEmpty(item)) {
       throw new Error('Invalid data');
     }
-  });
+  }
 
   if (!uuidValidate(author)) {
     throw new Error('Invalid data');
