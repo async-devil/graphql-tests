@@ -3,7 +3,7 @@ import validator from 'validator';
 function updateUser(users, args) {
   const { id, data } = args;
 
-  const userToUpdate = users.find((user) => user.id === args.id);
+  const userToUpdate = users.find((user) => user.id === id);
   if (!userToUpdate) {
     throw new Error('User not found');
   }
@@ -15,10 +15,10 @@ function updateUser(users, args) {
       throw new Error('Email has taken');
     }
 
-    userToUpdate.email === data.email;
+    userToUpdate.email = data.email;
   }
 
-  if (typeof data.username === 'string' && !validator.isEmpty(item)) {
+  if (typeof data.username === 'string' && !validator.isEmpty(data.username)) {
     userToUpdate.username = data.username;
   }
 
