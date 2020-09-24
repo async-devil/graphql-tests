@@ -1,110 +1,50 @@
-const fs = require('fs');
-
 const addUser = require('../modules/addFunctions/addUser.js');
 const addPost = require('../modules/addFunctions/addPost.js');
 const addComments = require('../modules/addFunctions/addComment.js');
 const removeUser = require('../modules/deleteFunctions/deleteUser.js');
 const removePost = require('../modules/deleteFunctions/deletePost.js');
 const removeComment = require('../modules/deleteFunctions/deleteComment.js');
+const updateUser = require('../modules/updateFunctions/updateUser.js');
 
 const mutation = {
   createUser(parent, args, {
     db,
   }) {
-    const newUser = addUser(db.users, args.data);
-    db.users.push(newUser);
-    pushData(db.users, 'users');
-    return newUser;
+    const user = addUser(db.users, args.data);
+    db.users.push(user);
+    return user; // TODO: make the same thing to others
   },
   deleteUser(parent, args, {
     db,
   }) {
-    let deletedUser;
-
-    function gettingData(users, posts, comments, callback) {
-      const data = removeUser(users, posts, comments, args);
-      callback(data);
-    }
-    gettingData(db.users, db.posts, db.comments, args, (data) => {
-      const {
-        users,
-        posts,
-        comments,
-      } = data;
-      deletedUser = data.deletedUser;
-      pushData(users, 'users');
-      pushData(posts, 'posts');
-      pushData(comments, 'comments');
-    });
-    return deletedUser;
+    const data = removeUser(db.users, db.posts, db.comments, args);
+    return data.deletedUser;
   },
   updateUser(parent, args, {
     db,
   }) {
-    // function gettingData(users, callback) {
-    //   const data = updateUser(users, args);
-    //   callback(data)
-    // }
-    //
-    // gettingData(db.users, args, (data) => {
-    //
-    // })
-    const updatedUser = updateUser(db.users, args);
-    pus;
+    return updateUser(db.users, args);
   },
   createPost(parent, args, {
     db,
   }) {
-    const newPost = addPost(db.posts, args.data, db.users);
-    db.posts.push(newPost);
-    pushData(db.posts, 'posts');
-    return newPost;
+    return addPost(db.posts, args.data, db.users);
   },
   deletePost(parent, args, {
     db,
   }) {
-    let deletedPost;
-
-    function gettingData(posts, comments, callback) {
-      const data = removePost(posts, comments, args);
-      callback(data);
-    }
-    gettingData(db.posts, db.comments, args, (data) => {
-      const {
-        posts,
-        comments,
-      } = data;
-      deletedPost = data.deletedPost;
-      pushData(posts, 'posts');
-      pushData(comments, 'comments');
-    });
-    return deletedPost;
+    return removePost(db.posts, db.comments, args);
   },
   createComment(parent, args, {
     db,
   }) {
-    const newComment = addComments(db.comments, args.data, db.users, db.posts);
-    db.comments.push(newComment);
-    pushData(db.comments, 'comments');
-    return newComment;
+    return addComments(db.comments, args.data, db.users, db.posts);
   },
   deleteComment(parent, args, {
     db,
   }) {
-    let deletedComment;
-
-    function gettingData(comments, callback) {
-      const data = removeComment(comments, args);
-      callback(data);
-    }
-    gettingData(db.comments, args, (data) => {
-      const {
-        comments,
-      } = data;
-      deletedComment = data.deletedComment;
-      pushData(comments, 'comments');
-    });
-    return deletedComment;
+    const data = removeComment(db.comments, args);
+    return data.deletedComment;
   },
 };
 export {
