@@ -8,13 +8,12 @@ function addUser(users, args) {
     // checking if data is existing
     throw new Error('Invalid data');
   }
-
-  args.forEach((item) => {
+  for (var i = 0; i < args.length; i++) {
     // checking if items not empty
-    if (validator.isEmpty(item)) {
+    if (validator.isEmpty(args[i])) {
       throw new Error('Invalid data');
     }
-  });
+  }
 
   if (!validator.isEmail(email)) {
     // checking if email valid
