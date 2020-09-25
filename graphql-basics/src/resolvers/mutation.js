@@ -12,12 +12,13 @@ const mutation = {
   }) {
     const user = addUser(db.users, args.data);
     db.users.push(user);
-    return user; // TODO: make the same thing to others
+    return user; 
   },
   deleteUser(parent, args, {
     db,
   }) {
     const data = removeUser(db.users, db.posts, db.comments, args);
+    db.users = data.users;
     return data.deletedUser;
   },
   updateUser(parent, args, {
@@ -28,7 +29,9 @@ const mutation = {
   createPost(parent, args, {
     db,
   }) {
-    return addPost(db.posts, args.data, db.users);
+    const post = addPost(db.posts, args.data, db.users);
+    db.posts.push(post)
+    return post;
   },
   deletePost(parent, args, {
     db,
