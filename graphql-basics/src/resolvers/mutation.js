@@ -8,6 +8,7 @@ const removeComment = require('../modules/deleteFunctions/deleteComment.js');
 
 const updateUser = require('../modules/updateFunctions/updateUser.js');
 const updatePost = require('../modules/updateFunctions/updatePost.js');
+const updateComment = require('../modules/updateFunctions/updateComment.js');
 
 const mutation = {
 
@@ -81,6 +82,14 @@ const mutation = {
     const data = removeComment(db.comments, args);
     db.comments = data.comments;
     return data.deletedComment;
+  },
+
+  updateComment(parent, args, {
+    db,
+  }) {
+    const data = updateComment(db.comments, args);
+    db.comments = data.updatedComments;
+    return data.updatedComment
   },
   /* */
 };
