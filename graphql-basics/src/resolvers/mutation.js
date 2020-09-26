@@ -12,41 +12,51 @@ const mutation = {
   }) {
     const user = addUser(db.users, args.data);
     db.users.push(user);
-    return user; 
+    return user;
   },
   deleteUser(parent, args, {
     db,
   }) {
     const data = removeUser(db.users, db.posts, db.comments, args);
     db.users = data.users;
+    db.posts = data.posts;
+    db.comments = data.comments;
     return data.deletedUser;
   },
   updateUser(parent, args, {
     db,
   }) {
-    return updateUser(db.users, args);
+    const data = updateUser(db.users, args);
+    db.users = data.updatedUsers;
+    return data.updatedUser
   },
   createPost(parent, args, {
     db,
   }) {
     const post = addPost(db.posts, args.data, db.users);
-    db.posts.push(post)
+    db.posts.push(post);
     return post;
   },
   deletePost(parent, args, {
     db,
   }) {
-    return removePost(db.posts, db.comments, args);
+    const data = removePost(db.posts, db.comments, args);
+    db.posts = data.posts;
+    db.comments = data.comments;
+    return data.deletedPost;
   },
   createComment(parent, args, {
     db,
   }) {
-    return addComments(db.comments, args.data, db.users, db.posts);
+    const comment = addComments(db.comments, args.data, db.users, db.posts);
+    db.comments.push(comment);
+    return comment;
   },
   deleteComment(parent, args, {
     db,
   }) {
     const data = removeComment(db.comments, args);
+    db.comments = data.comments;
     return data.deletedComment;
   },
 };
