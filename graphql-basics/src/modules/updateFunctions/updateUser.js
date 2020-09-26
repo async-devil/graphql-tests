@@ -13,7 +13,11 @@ function updateUser(users, args) {
 
   if (typeof data.email === 'string' && validator.isEmail(data.email)) {
     const emailTaken = users.some((user) => user.email === data.email);
+<<<<<<< HEAD
     
+=======
+    console.log(data.email, userToUpdate.email);
+>>>>>>> 28f4be20cdea4f7a8b882c4d91dda4829ee6225d
     if (emailTaken && data.email !== userToUpdate.email) {
       throw new Error('Email has taken');
     }
