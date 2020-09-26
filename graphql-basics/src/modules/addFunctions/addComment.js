@@ -11,7 +11,8 @@ function addComment(comments, args, users, posts) {
     throw new Error('Invalid data');
   }
 
-  args.forEach((item) => {
+  for (var i = 0; i < args.length; i++) {
+    const item = args[i];
     // checking if items not empty
     if (typeof item === 'boolean') {
       return;
@@ -19,7 +20,7 @@ function addComment(comments, args, users, posts) {
     if (validator.isEmpty(item)) {
       throw new Error('Invalid data');
     }
-  });
+  }
 
   if (!uuidValidate(author)) {
     throw new Error('Invalid data');
