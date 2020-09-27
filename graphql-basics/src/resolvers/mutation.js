@@ -45,10 +45,15 @@ const mutation = {
 
   /*Posts mutations */
   createPost(parent, args, {
-    db,
+    db, pubsub,
   }) {
     const post = addPost(db.posts, args.data, db.users);
     db.posts.push(post);
+
+    if (post.published) {
+      pubsub.publish(`post by ${post.author}`, {post})
+    }
+
     return post;
   },
 
@@ -62,11 +67,17 @@ const mutation = {
   },
 
   updatePost(parent, args, {
-    db,
+    db, pubsub,
   }) {
     const data = updatePost(db.posts, args);
+    const post = data.updatedPost;
     db.posts = data.updatedPosts;
-    return data.updatedPost
+
+    // if (post.published) {
+    //   pubsub.publish(`post by ${post.author}`, {post})
+    // }
+
+    return post;
   },
   /* */
 
@@ -76,7 +87,11 @@ const mutation = {
   }) {
     const comment = addComments(db.comments, args.data, db.users, db.posts);
     db.comments.push(comment);
-    pubsub.publish(`comment ${comment.post}`, {comment})
+
+    if (comment.published) {
+      pubsub.publish(`comment on ${comment.post}`, {comment})
+    }
+
     return comment;
   },
 
@@ -89,11 +104,17 @@ const mutation = {
   },
 
   updateComment(parent, args, {
-    db,
+    db, pubsub,
   }) {
     const data = updateComment(db.comments, args);
     db.comments = data.updatedComments;
-    return data.updatedComment
+    const comment = data.updatedComment
+
+    // if (comment.published) {
+    //   pubsub.publish(`comment on ${comment.post}`, {comment})
+    // }
+
+    return comment;
   },
   /* */
 };
