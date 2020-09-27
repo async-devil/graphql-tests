@@ -17,6 +17,7 @@ const mutation = {
     db,
   }) {
     const user = addUser(db.users, args.data);
+    //pushing 
     db.users.push(user);
     return user;
   },
@@ -25,9 +26,11 @@ const mutation = {
     db,
   }) {
     const data = removeUser(db.users, db.posts, db.comments, args);
+    //reassigning db
     db.users = data.users;
     db.posts = data.posts;
     db.comments = data.comments;
+
     return data.deletedUser;
   },
 
