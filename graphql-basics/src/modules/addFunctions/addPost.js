@@ -6,7 +6,7 @@ function addPost(posts, args, users) {
   const {
     title, body, published, author,
   } = args;
-  if (!title || !body || !published || !author) {
+  if (!title || !body || typeof published !== 'boolean'|| !author) {
     throw new Error('Invalid data');
   }
 
