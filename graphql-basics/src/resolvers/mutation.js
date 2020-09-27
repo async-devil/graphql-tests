@@ -17,7 +17,7 @@ const mutation = {
     db,
   }) {
     const user = addUser(db.users, args.data);
-    //pushing 
+    //pushing
     db.users.push(user);
     return user;
   },
@@ -72,10 +72,11 @@ const mutation = {
 
   /*Comments mutations */
   createComment(parent, args, {
-    db,
+    db, pubsub,
   }) {
     const comment = addComments(db.comments, args.data, db.users, db.posts);
     db.comments.push(comment);
+    pubsub.publish(`comment ${comment.post}`, {comment})
     return comment;
   },
 
