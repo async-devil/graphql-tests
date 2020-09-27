@@ -1,8 +1,3 @@
-const fs = require('fs');
-
-const singleElementSearch = require('../modules/searchFunctions/singleElementSearch.js');
-const doubleElementSearch = require('../modules/searchFunctions/doubleElementSearch.js');
-//const singleMultipleObjectSearch = require('./modules/searchFunctions/singleMultipleObjectSearch.js');
 const addUser = require('../modules/addFunctions/addUser.js');
 const addPost = require('../modules/addFunctions/addPost.js');
 const addComments = require('../modules/addFunctions/addComment.js');
@@ -11,108 +6,99 @@ const removeUser = require('../modules/deleteFunctions/deleteUser.js');
 const removePost = require('../modules/deleteFunctions/deletePost.js');
 const removeComment = require('../modules/deleteFunctions/deleteComment.js');
 
-const pushData = (data, fileName) => {
-  fs.writeFileSync(`${__dirname}/../database/${fileName}.json`, JSON.stringify(data));
-}
+const updateUser = require('../modules/updateFunctions/updateUser.js');
+const updatePost = require('../modules/updateFunctions/updatePost.js');
+const updateComment = require('../modules/updateFunctions/updateComment.js');
 
 const mutation = {
+
+  /*Users mutations*/
   createUser(parent, args, {
-    db
-  }, info) {
-    var newUser = addUser(db.users, args.data);
-    db.users.push(newUser)
-    pushData(db.users, 'users');
-
-    return newUser;
+    db,
+  }) {
+    const user = addUser(db.users, args.data);
+    //pushing
+    db.users.push(user);
+    return user;
   },
+
   deleteUser(parent, args, {
-    db
-  }, info) {
-    var deletedUser;
+    db,
+  }) {
+    const data = removeUser(db.users, db.posts, db.comments, args);
+    //reassigning db
+    db.users = data.users;
+    db.posts = data.posts;
+    db.comments = data.comments;
 
-    function gettingData(users, posts, comments, args, callback) {
-      var data = removeUser(users, posts, comments, args)
-      callback(data)
-    }
-    gettingData(db.users, db.posts, db.comments, args, (data) => {
-      var {
-        users,
-        posts,
-        comments
-      } = data
-      deletedUser = data.deletedUser
-
-      pushData(users, 'users');
-      pushData(posts, 'posts');
-      pushData(comments, 'comments');
-    })
-
-    return deletedUser;
+    return data.deletedUser;
   },
+
+  updateUser(parent, args, {
+    db,
+  }) {
+    const data = updateUser(db.users, args);
+    db.users = data.updatedUsers;
+    return data.updatedUser
+  },
+  /* */
+
+  /*Posts mutations */
   createPost(parent, args, {
-    db
-  }, info) {
-    var newPost = addPost(db.posts, args.data, db.users);
-    db.posts.push(newPost)
-    pushData(db.posts, 'posts')
-
-    return newPost;
+    db,
+  }) {
+    const post = addPost(db.posts, args.data, db.users);
+    db.posts.push(post);
+    return post;
   },
+
   deletePost(parent, args, {
-    db
-  }, info) {
-    var deletedPost
-
-    function gettingData(posts, comments, args, callback) {
-      var data = removePost(posts, comments, args)
-      callback(data)
-    }
-
-    gettingData(db.posts, db.comments, args, (data) => {
-      var {
-        posts,
-        comments
-      } = data;
-      deletedPost = data.deletedPost
-
-      pushData(posts, 'posts');
-      pushData(comments, 'comments')
-    })
-
-    return deletedPost;
+    db,
+  }) {
+    const data = removePost(db.posts, db.comments, args);
+    db.posts = data.posts;
+    db.comments = data.comments;
+    return data.deletedPost;
   },
+
+  updatePost(parent, args, {
+    db,
+  }) {
+    const data = updatePost(db.posts, args);
+    db.posts = data.updatedPosts;
+    return data.updatedPost
+  },
+  /* */
+
+  /*Comments mutations */
   createComment(parent, args, {
-    db
-  }, info) {
-    var newComment = addComments(db.comments, args.data, db.users, db.posts);
-    db.comments.push(newComment)
-    pushData(db.comments, 'comments')
-
-    return newComment;
+    db, pubsub,
+  }) {
+    const comment = addComments(db.comments, args.data, db.users, db.posts);
+    db.comments.push(comment);
+    pubsub.publish(`comment ${comment.post}`, {comment})
+    return comment;
   },
+
   deleteComment(parent, args, {
-    db
-  }, info) {
-    var deletedComment;
+    db,
+  }) {
+    const data = removeComment(db.comments, args);
+    db.comments = data.comments;
+    return data.deletedComment;
+  },
 
-    function gettingData(comments, args, callback) {
-      var data = removeComment(comments, args)
-      callback(data)
-    }
-
-    gettingData(db.comments, args, (data) => {
-      var {
-        comments
-      } = data;
-      deletedComment = data.deletedComment
-
-      pushData(comments, 'comments')
-    })
-
-    return deletedComment;
-  }
-}
+  updateComment(parent, args, {
+    db,
+  }) {
+    const data = updateComment(db.comments, args);
+    db.comments = data.updatedComments;
+    return data.updatedComment
+  },
+  /* */
+};
 
 export {
-  mutation as default
-}
+  mutation as
+  default,
+};

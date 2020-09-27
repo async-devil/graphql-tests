@@ -4,8 +4,9 @@
   "description": "Tests while studying graphql course",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon graphql-basics/src/index.js --config nodemon.json ",
-    "test": "echo Hello"
+    "start": "nodemon graphql-basics/src/index.js --config nodemon.json",
+    "test": "echo Hello",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -25,13 +26,14 @@
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "graphql": "^15.3.0",
-    "graphql-playground-html": "^1.6.27",
     "graphql-yoga": "^1.18.3",
     "uuid": "^8.3.0",
-    "validator": "^13.1.1"
+    "validator": "^13.1.17"
   },
   "devDependencies": {
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
     "nodemon": "^2.0.4"
   }
 }

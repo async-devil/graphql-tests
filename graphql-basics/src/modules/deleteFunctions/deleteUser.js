@@ -1,29 +1,31 @@
 function deleteUser(users, posts, comments, args) {
-  var userIndex = users.findIndex((user) => user.id === args.id);
+  let filteredComments = comments;
+  const userIndex = users.findIndex((user) => user.id === args.id);
+  // finding user index by id
 
   if (userIndex === -1) {
-    throw new Error('User not found')
+    throw new Error('User not found');
   }
 
-  var deletedUser = users.splice(userIndex, 1);
+  const deletedUser = users.splice(userIndex, 1);
 
-  posts = posts.filter(post => {
-    var match = post.author === args.id
+  const filteredPosts = posts.filter((post) => {
+    const match = post.author === args.id;
 
     if (match) {
-      comments = comments.filter((comment) => {
-        return comment.post !== post.id
-      })
+      filteredComments = filteredComments.filter((comment) => comment.post !== post.id);
+      // slicing out comments which are on users post
     }
 
-    return !match
+    return !match;
   });
 
-  comments = comments.filter((comment) => {
-    return comment.author !== args.id
-  })
+  filteredComments = filteredComments.filter((comment) => comment.author !== args.id);
+  // slicing out comments which user created
 
-  return {users, posts, comments, deletedUser: deletedUser[0]}
+  return {
+    users, posts: filteredPosts, comments: filteredComments, deletedUser: deletedUser[0],
+  };
 }
 
 module.exports = deleteUser;

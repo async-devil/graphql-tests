@@ -1,21 +1,18 @@
 const comment = {
   author(parent, args, {
-    db
-  }, info) {
-    return db.users.find((user) => {
-      return user.id === parent.author
-      //if user.id = comment.author then comment.author = founded user
-    })
+    db,
+  }) {
+    return db.users.find((user) => user.id === parent.author);
+    //returning user which id equals to comment.author(user.id)
   },
   post(parent, args, {
-    db
-  }, info) {
-    return db.posts.find((post) => {
-      return post.id === parent.post
-    })
+    db,
+  }) {
+    return db.posts.find((post) => post.id === parent.post);
+    //the same thing but with post
   },
-}
+};
 
 export {
-  comment as default
-}
+  comment as default,
+};
