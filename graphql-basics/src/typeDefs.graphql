@@ -21,6 +21,7 @@ type Mutation {
 
 type Subscription {
   comment(postID: ID!): Comment!
+  post(userID: ID!): Post!
 }
 
 ###########################
@@ -45,9 +46,9 @@ input createPostInput {
 }
 
 input updatePostInput {
-  title: String!,
-  body: String!,
-  published: Boolean!
+  title: String,
+  body: String,
+  published: Boolean
 }
 
 ###########################
@@ -60,8 +61,8 @@ input createCommentsInput {
 }
 
 input updateCommentInput {
-  body: String!,
-  published: Boolean!
+  body: String,
+  published: Boolean
 }
 
 ###########################
