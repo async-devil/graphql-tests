@@ -1,12 +1,12 @@
 function updatePost(posts, args) {
-  const {id, data} = args;
-  let updatedPosts = posts;
+  const { id, data } = args;
+  const updatedPosts = posts;
 
   const postToUpdate = posts.find((post) => post.id === id);
   const postIndex = posts.findIndex((post) => post.id === id);
 
   if (!postToUpdate) {
-    throw new Error("Post not find")
+    throw new Error('Post not find');
   }
 
   if (typeof data.title === 'string') {
@@ -22,7 +22,7 @@ function updatePost(posts, args) {
   }
 
   updatedPosts[postIndex] = postToUpdate;
-  return {updatedPost: postToUpdate, updatedPosts};
+  return { updatedPost: postToUpdate, updatedPosts };
 }
 
 module.exports = updatePost;

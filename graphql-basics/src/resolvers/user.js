@@ -9,7 +9,7 @@ const user = {
     db,
   }) {
     return db.comments.filter((comment) => comment.author === parent.id);
-    //the same thing but with comments
+    // the same thing but with comments
   },
 };
 

@@ -5,7 +5,7 @@ import db from './db';
 
 import Query from './resolvers/query';
 import Mutation from './resolvers/mutation';
-import Subscription from './resolvers/subscription'
+import Subscription from './resolvers/subscription';
 
 import User from './resolvers/user';
 import Post from './resolvers/post';
