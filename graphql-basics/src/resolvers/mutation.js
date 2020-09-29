@@ -12,12 +12,12 @@ const updateComment = require('../modules/updateFunctions/updateComment.js');
 
 const mutation = {
 
-  /*Users mutations*/
+  /* Users mutations */
   createUser(parent, args, {
     db,
   }) {
     const user = addUser(db.users, args.data);
-    //pushing
+    // pushing
     db.users.push(user);
     return user;
   },
@@ -26,7 +26,7 @@ const mutation = {
     db,
   }) {
     const data = removeUser(db.users, db.posts, db.comments, args);
-    //reassigning db
+    // reassigning db
     db.users = data.users;
     db.posts = data.posts;
     db.comments = data.comments;
@@ -39,11 +39,11 @@ const mutation = {
   }) {
     const data = updateUser(db.users, args);
     db.users = data.updatedUsers;
-    return data.updatedUser
+    return data.updatedUser;
   },
   /* */
 
-  /*Posts mutations */
+  /* Posts mutations */
   createPost(parent, args, {
     db, pubsub,
   }) {
@@ -51,7 +51,7 @@ const mutation = {
     db.posts.push(post);
 
     if (post.published) {
-      pubsub.publish(`post by ${post.author}`, {post})
+      pubsub.publish(`post by ${post.author}`, { post });
     }
 
     return post;
@@ -81,7 +81,7 @@ const mutation = {
   },
   /* */
 
-  /*Comments mutations */
+  /* Comments mutations */
   createComment(parent, args, {
     db, pubsub,
   }) {
@@ -89,7 +89,7 @@ const mutation = {
     db.comments.push(comment);
 
     if (comment.published) {
-      pubsub.publish(`comment on ${comment.post}`, {comment})
+      pubsub.publish(`comment on ${comment.post}`, { comment });
     }
 
     return comment;
@@ -108,7 +108,7 @@ const mutation = {
   }) {
     const data = updateComment(db.comments, args);
     db.comments = data.updatedComments;
-    const comment = data.updatedComment
+    const comment = data.updatedComment;
 
     // if (comment.published) {
     //   pubsub.publish(`comment on ${comment.post}`, {comment})
