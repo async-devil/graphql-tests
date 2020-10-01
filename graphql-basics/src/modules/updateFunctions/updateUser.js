@@ -2,7 +2,7 @@ import validator from 'validator';
 
 function updateUser(users, args) {
   const { id, data } = args;
-  let updatedUsers = users;
+  const updatedUsers = users;
 
   const userToUpdate = users.find((user) => user.id === id);
   const userIndex = users.findIndex((user) => user.id === args.id);
@@ -25,8 +25,8 @@ function updateUser(users, args) {
     userToUpdate.username = data.username;
   } else throw new Error('Invalid data');
 
-  updatedUsers[userIndex] = userToUpdate
-  return {updatedUser: userToUpdate, updatedUsers};
+  updatedUsers[userIndex] = userToUpdate;
+  return { updatedUser: userToUpdate, updatedUsers };
 }
 
 module.exports = updateUser;

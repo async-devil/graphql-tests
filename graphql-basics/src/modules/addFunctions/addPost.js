@@ -10,7 +10,7 @@ function addPost(posts, args, users) {
     throw new Error('Invalid data');
   }
 
-  for (let i = 0, len = args.length; i < len; i++) {
+  for (let i = 0, len = args.length; i < len; i += 1) {
     const item = args[i];
     // checking if items not empty
     if (typeof item === 'boolean') {

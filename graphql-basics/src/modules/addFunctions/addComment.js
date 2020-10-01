@@ -11,7 +11,7 @@ function addComment(comments, args, users, posts) {
     throw new Error('Invalid data');
   }
 
-  for (let i = 0; i < args.length; i++) {
+  for (let i = 0; i < args.length; i += 1) {
     const item = args[i];
     // checking if items not empty
     if (typeof item === 'boolean') {
