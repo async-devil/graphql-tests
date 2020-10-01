@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon graphql-basics/src/index.js --config nodemon.json",
-    "test": "echo Hello",
-    "lint": "eslint ."
+    "eslint:check": "eslint .",
+    "eslint:fix": "eslint --fix ."
   },
   "repository": {
     "type": "git",
