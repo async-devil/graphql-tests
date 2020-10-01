@@ -51,7 +51,12 @@ const mutation = {
     db.posts.push(post);
 
     if (post.published) {
-      pubsub.publish(`post by ${post.author}`, { post });
+      pubsub.publish(`post by ${post.author}`, {
+        post: {
+          mutation: 'CREATED',
+          data: post,
+        },
+      });
     }
 
     return post;

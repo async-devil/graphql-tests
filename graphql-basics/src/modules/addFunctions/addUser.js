@@ -8,7 +8,7 @@ function addUser(users, args) {
     // checking if data is existing
     throw new Error('Invalid data');
   }
-  for (let i = 0; i < args.length; i++) {
+  for (let i = 0; i < args.length; i += 1) {
     // checking if items not empty
     if (validator.isEmpty(args[i])) {
       throw new Error('Invalid data');

@@ -20,8 +20,8 @@ type Mutation {
 }
 
 type Subscription {
-  comment(postID: ID!): Comment!
-  post(userID: ID!): Post!
+  comment(postID: ID!): CommentSubscriptionPayload!
+  post(userID: ID!): PostSubscriptionPayload!
 }
 
 ###########################
@@ -90,6 +90,18 @@ type User {
   email: String!
   posts: [Post!]
   comments: [Comment!]
+}
+
+###########################
+
+type PostSubscriptionPayload {
+  mutation: String!
+  data: Post!
+}
+
+type CommentSubscriptionPayload {
+  mutation: String!
+  data: Comment!
 }
 
 ###########################
