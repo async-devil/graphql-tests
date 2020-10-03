@@ -94,7 +94,12 @@ const mutation = {
     db.comments.push(comment);
 
     if (comment.published) {
-      pubsub.publish(`comment on ${comment.post}`, { comment });
+      pubsub.publish(`comment on ${comment.post}`, {
+        comment: {
+          mutation: "CREATED",
+          data: comment,
+        }
+      });
     }
 
     return comment;
