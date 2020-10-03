@@ -57,17 +57,39 @@ const mutation = {
           data: post,
         },
       });
+      pubsub.publish(`post`, {
+        post: {
+          mutation: 'CREATED',
+          data: post,
+        },
+      });
     }
 
     return post;
   },
 
   deletePost(parent, args, {
-    db,
+    db, pubsub,
   }) {
     const data = removePost(db.posts, db.comments, args);
     db.posts = data.posts;
     db.comments = data.comments;
+
+    if (post.published) {
+      pubsub.publish(`post by ${post.author}`, {
+        post: {
+          mutation: 'DELETED',
+          data: data.deletedPost,
+        },
+      });
+      pubsub.publish(`post`, {
+        post: {
+          mutation: 'DELETED',
+          data: data.deletedPost,
+        },
+      });
+    }
+
     return data.deletedPost;
   },
 
@@ -78,9 +100,20 @@ const mutation = {
     const post = data.updatedPost;
     db.posts = data.updatedPosts;
 
-    // if (post.published) {
-    //   pubsub.publish(`post by ${post.author}`, {post})
-    // }
+    if (post.published) {
+      pubsub.publish(`post by ${post.author}`, {
+        post: {
+          mutation: 'UPDATED',
+          data: post,
+        },
+      });
+      pubsub.publish(`post`, {
+        post: {
+          mutation: 'UPDATED',
+          data: post,
+        },
+      });
+    }
 
     return post;
   },
@@ -110,6 +143,15 @@ const mutation = {
   }) {
     const data = removeComment(db.comments, args);
     db.comments = data.comments;
+
+    if (comment.published) {
+      pubsub.publish(`comment on ${comment.post}`, {
+        comment: {
+          mutation: "DELETED",
+          data: comment,
+        }
+      });
+      }
     return data.deletedComment;
   },
 
@@ -120,16 +162,20 @@ const mutation = {
     db.comments = data.updatedComments;
     const comment = data.updatedComment;
 
-    // if (comment.published) {
-    //   pubsub.publish(`comment on ${comment.post}`, {comment})
-    // }
-
+    if (comment.published) {
+      pubsub.publish(`comment on ${comment.post}`, {
+        comment: {
+          mutation: "UPDATED",
+          data: comment,
+        }
+      });
+    }
     return comment;
-  },
-  /* */
-};
+  }
+}
 
+/* */
 export {
   mutation as
-  default,
+  default
 };
