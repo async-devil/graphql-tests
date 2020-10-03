@@ -8,7 +8,7 @@ const subscription = {
       return pubsub.asyncIterator(`comment on ${postID}`);
     },
   },
-  post: {
+  userPost: {
     subscribe(parent, { userID }, { db, pubsub }, info) {
       const subscriptionUser = db.users.find((user) => user.id === userID);
 
@@ -17,6 +17,10 @@ const subscription = {
       return pubsub.asyncIterator(`post by ${userID}`);
     },
   },
+post: {
+  subscribe(parent, args, {db, pubsub}, info) {
+    return pubsub.asyncIterator('post');
+  }
+}
 };
-
 export { subscription as default };
