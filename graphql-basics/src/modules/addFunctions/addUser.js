@@ -38,4 +38,6 @@ function addUser(users, args) {
   // returning newUser object
 }
 
-module.exports = addUser;
+export {
+  addUser as default,
+};

@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from 'uuid';
-import { validate as uuidValidate } from 'uuid';
+import { v4 as uuidv4, validate as uuidValidate } from 'uuid';
+
 import validator from 'validator';
 
 function addPost(posts, args, users) {
@@ -14,7 +14,7 @@ function addPost(posts, args, users) {
     const item = args[i];
     // checking if items not empty
     if (typeof item === 'boolean') {
-      return;
+      return undefined; // not sure about that
     }
     if (validator.isEmpty(item)) {
       throw new Error('Invalid data');
@@ -36,4 +36,4 @@ function addPost(posts, args, users) {
   // returning newUser object
 }
 
-module.exports = addPost;
+export { addPost as default };
