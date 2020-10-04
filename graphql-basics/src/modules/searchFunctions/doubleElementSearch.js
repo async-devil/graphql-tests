@@ -18,4 +18,4 @@ function doubleElementSearch(dataToSearch1, dataToSearch2, dataBase, searchObjec
   }
 }
 
-module.exports = doubleElementSearch;
+export { doubleElementSearch as default };

@@ -28,4 +28,4 @@ function deleteUser(users, posts, comments, args) {
   };
 }
 
-module.exports = deleteUser;
+export { deleteUser as default };

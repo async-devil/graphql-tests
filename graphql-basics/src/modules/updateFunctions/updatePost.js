@@ -25,4 +25,4 @@ function updatePost(posts, args) {
   return { updatedPost: postToUpdate, updatedPosts };
 }
 
-module.exports = updatePost;
+export { updatePost as default };

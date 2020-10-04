@@ -12,4 +12,4 @@ function singleMultipleObjectSearch(dataToSearch, dataBase, searchObject1, searc
   }
 }
 
-module.exports = singleMultipleObjectSearch;
+export { singleMultipleObjectSearch as default };

@@ -17,4 +17,4 @@ function removePost(posts, comments, args) {
   return { posts, comments: filteredComments, deletedPost: deletedPost[0] };
 }
 
-module.exports = removePost;
+export { removePost as default };
