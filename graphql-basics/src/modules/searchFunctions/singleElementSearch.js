@@ -12,4 +12,4 @@ function singleElementSearch(dataToSearch, dataBase, searchObject) {
   }
 }
 
-module.exports = singleElementSearch;
+export { singleElementSearch as default };

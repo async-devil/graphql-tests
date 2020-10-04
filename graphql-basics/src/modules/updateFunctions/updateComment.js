@@ -21,4 +21,4 @@ function updateComment(comments, args) {
   return { updatedComment: commentToUpdate, updatedComments };
 }
 
-module.exports = updateComment;
+export { updateComment as default };

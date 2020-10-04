@@ -1,5 +1,5 @@
-const singleElementSearch = require('../modules/searchFunctions/singleElementSearch.js');
-const doubleElementSearch = require('../modules/searchFunctions/doubleElementSearch.js');
+import singleElementSearch from '../modules/searchFunctions/singleElementSearch';
+import doubleElementSearch from '../modules/searchFunctions/doubleElementSearch';
 
 const query = {
   users(parent, args, {

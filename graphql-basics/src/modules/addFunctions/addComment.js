@@ -1,5 +1,5 @@
-import uuidv4 from 'uuid/v4';
-import { validate as uuidValidate } from 'uuid';
+import { v4 as uuidv4, validate as uuidValidate } from 'uuid';
+
 import validator from 'validator';
 
 function addComment(comments, args, users, posts) {
@@ -15,7 +15,7 @@ function addComment(comments, args, users, posts) {
     const item = args[i];
     // checking if items not empty
     if (typeof item === 'boolean') {
-      return;
+      return undefined; // not sure about that
     }
     if (validator.isEmpty(item)) {
       throw new Error('Invalid data');
@@ -45,4 +45,4 @@ function addComment(comments, args, users, posts) {
   // returning newComment object
 }
 
-module.exports = addComment;
+export { addComment as default };

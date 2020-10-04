@@ -10,4 +10,4 @@ function removeComment(comments, args) {
   return { comments, deletedComment: deletedComment[0] };
 }
 
-module.exports = removeComment;
+export { removeComment as default };

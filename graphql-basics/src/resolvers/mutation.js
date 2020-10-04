@@ -1,30 +1,26 @@
-const addUser = require('../modules/addFunctions/addUser.js');
-const addPost = require('../modules/addFunctions/addPost.js');
-const addComments = require('../modules/addFunctions/addComment.js');
+import addUser from '../modules/addFunctions/addUser';
+import addPost from '../modules/addFunctions/addPost';
+import addComments from '../modules/addFunctions/addComment';
 
-const removeUser = require('../modules/deleteFunctions/deleteUser.js');
-const removePost = require('../modules/deleteFunctions/deletePost.js');
-const removeComment = require('../modules/deleteFunctions/deleteComment.js');
+import removeUser from '../modules/deleteFunctions/deleteUser';
+import removePost from '../modules/deleteFunctions/deletePost';
+import removeComment from '../modules/deleteFunctions/deleteComment';
 
-const updateUser = require('../modules/updateFunctions/updateUser.js');
-const updatePost = require('../modules/updateFunctions/updatePost.js');
-const updateComment = require('../modules/updateFunctions/updateComment.js');
+import updateUser from '../modules/updateFunctions/updateUser';
+import updatePost from '../modules/updateFunctions/updatePost';
+import updateComment from '../modules/updateFunctions/updateComment';
 
 const mutation = {
 
   /* Users mutations */
-  createUser(parent, args, {
-    db,
-  }) {
+  createUser(parent, args, { db }) {
     const user = addUser(db.users, args.data);
     // pushing
     db.users.push(user);
     return user;
   },
 
-  deleteUser(parent, args, {
-    db,
-  }) {
+  deleteUser(parent, args, { db }) {
     const data = removeUser(db.users, db.posts, db.comments, args);
     // reassigning db
     db.users = data.users;
@@ -34,101 +30,132 @@ const mutation = {
     return data.deletedUser;
   },
 
-  updateUser(parent, args, {
-    db,
-  }) {
+  updateUser(parent, args, { db }) {
     const data = updateUser(db.users, args);
     db.users = data.updatedUsers;
     return data.updatedUser;
   },
-  /* */
+  /*  */
 
   /* Posts mutations */
-  createPost(parent, args, {
-    db, pubsub,
-  }) {
+  createPost(parent, args, { db, pubsub }) {
     const post = addPost(db.posts, args.data, db.users);
     db.posts.push(post);
 
     if (post.published) {
       pubsub.publish(`post by ${post.author}`, {
+        userPost: {
+          mutation: 'CREATED',
+          data: post,
+        },
+      });
+      pubsub.publish('post', {
         post: {
           mutation: 'CREATED',
           data: post,
         },
       });
     }
-
     return post;
   },
 
-  deletePost(parent, args, {
-    db,
-  }) {
+  deletePost(parent, args, { db, pubsub }) {
     const data = removePost(db.posts, db.comments, args);
     db.posts = data.posts;
     db.comments = data.comments;
-    return data.deletedPost;
+
+    const post = data.deletedPost;
+
+    if (post.published) {
+      pubsub.publish(`post by ${post.author}`, {
+        userPost: {
+          mutation: 'DELETED',
+          data: post,
+        },
+      });
+      pubsub.publish('post', {
+        post: {
+          mutation: 'DELETED',
+          data: post,
+        },
+      });
+    }
+    return post;
   },
 
-  updatePost(parent, args, {
-    db, pubsub,
-  }) {
+  updatePost(parent, args, { db, pubsub }) {
     const data = updatePost(db.posts, args);
     const post = data.updatedPost;
     db.posts = data.updatedPosts;
 
-    // if (post.published) {
-    //   pubsub.publish(`post by ${post.author}`, {post})
-    // }
-
+    if (post.published) {
+      pubsub.publish(`post by ${post.author}`, {
+        userPost: {
+          mutation: 'UPDATED',
+          data: post,
+        },
+      });
+      pubsub.publish('post', {
+        post: {
+          mutation: 'UPDATED',
+          data: post,
+        },
+      });
+    }
     return post;
   },
-  /* */
+  /*  */
 
   /* Comments mutations */
-  createComment(parent, args, {
-    db, pubsub,
-  }) {
+  createComment(parent, args, { db, pubsub }) {
     const comment = addComments(db.comments, args.data, db.users, db.posts);
     db.comments.push(comment);
 
     if (comment.published) {
       pubsub.publish(`comment on ${comment.post}`, {
         comment: {
-          mutation: "CREATED",
+          mutation: 'CREATED',
           data: comment,
-        }
+        },
       });
     }
-
     return comment;
   },
 
-  deleteComment(parent, args, {
-    db,
-  }) {
+  deleteComment(parent, args, { db, pubsub }) {
     const data = removeComment(db.comments, args);
     db.comments = data.comments;
-    return data.deletedComment;
+    const comment = data.deletedComment;
+
+    if (comment.published) {
+      pubsub.publish(`comment on ${comment.post}`, {
+        comment: {
+          mutation: 'DELETED',
+          data: comment,
+        },
+      });
+    }
+    return comment;
   },
 
-  updateComment(parent, args, {
-    db, pubsub,
-  }) {
+  updateComment(parent, args, { db, pubsub }) {
     const data = updateComment(db.comments, args);
     db.comments = data.updatedComments;
     const comment = data.updatedComment;
 
-    // if (comment.published) {
-    //   pubsub.publish(`comment on ${comment.post}`, {comment})
-    // }
-
+    if (comment.published) {
+      pubsub.publish(`comment on ${comment.post}`, {
+        comment: {
+          mutation: 'UPDATED',
+          data: comment,
+        },
+      });
+    }
     return comment;
   },
-  /* */
 };
 
+/*  */
 export {
   mutation as
   default,

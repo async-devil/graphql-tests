@@ -21,7 +21,8 @@ type Mutation {
 
 type Subscription {
   comment(postID: ID!): CommentSubscriptionPayload!
-  post(userID: ID!): PostSubscriptionPayload!
+  userPost(userID: ID!): PostSubscriptionPayload!
+  post: PostSubscriptionPayload!
 }
 
 ###########################

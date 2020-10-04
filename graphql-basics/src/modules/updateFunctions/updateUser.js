@@ -29,4 +29,4 @@ function updateUser(users, args) {
   return { updatedUser: userToUpdate, updatedUsers };
 }
 
-module.exports = updateUser;
+export { updateUser as default };

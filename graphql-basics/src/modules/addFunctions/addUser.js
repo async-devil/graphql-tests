@@ -1,4 +1,4 @@
-import uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 import validator from 'validator';
 
 function addUser(users, args) {
@@ -38,4 +38,6 @@ function addUser(users, args) {
   // returning newUser object
 }
 
-module.exports = addUser;
+export {
+  addUser as default,
+};
