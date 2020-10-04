@@ -1,6 +1,11 @@
 const subscription = {
   comment: {
-    subscribe(parent, { postID }, { db, pubsub }, info) {
+    subscribe(parent, {
+      postID,
+    }, {
+      db,
+      pubsub,
+    }) {
       const subscriptionPost = db.posts.find((post) => post.id === postID && post.published);
 
       if (!subscriptionPost) throw new Error('Post not found');
@@ -9,18 +14,26 @@ const subscription = {
     },
   },
   userPost: {
-    subscribe(parent, { userID }, { db, pubsub }, info) {
+    subscribe(parent, {
+      userID,
+    }, {
+      db,
+      pubsub,
+    }) {
       const subscriptionUser = db.users.find((user) => user.id === userID);
 
       if (!subscriptionUser) throw new Error('User not find');
-
       return pubsub.asyncIterator(`post by ${userID}`);
     },
   },
-post: {
-  subscribe(parent, args, {db, pubsub}, info) {
-    return pubsub.asyncIterator('post');
-  }
-}
+  post: {
+    subscribe(parent, args, {
+      pubsub,
+    }) {
+      return pubsub.asyncIterator('post');
+    },
+  },
 };
-export { subscription as default };
+export {
+  subscription as default,
+};
