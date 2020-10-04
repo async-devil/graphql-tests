@@ -75,22 +75,24 @@ const mutation = {
     db.posts = data.posts;
     db.comments = data.comments;
 
+    const post = data.deletedPost;
+
     if (post.published) {
       pubsub.publish(`post by ${post.author}`, {
         post: {
           mutation: 'DELETED',
-          data: data.deletedPost,
+          data: post,
         },
       });
       pubsub.publish(`post`, {
         post: {
           mutation: 'DELETED',
-          data: data.deletedPost,
+          data: post,
         },
       });
     }
 
-    return data.deletedPost;
+    return post;
   },
 
   updatePost(parent, args, {
