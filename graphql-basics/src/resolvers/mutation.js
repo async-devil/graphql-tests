@@ -91,13 +91,13 @@ const mutation = {
     if (post.published) {
       pubsub.publish(`post by ${post.author}`, {
         userPost: {
-          mutation: 'UPDATED',
+          mutation: data.postMethod,
           data: post,
         },
       });
       pubsub.publish('post', {
         post: {
-          mutation: 'UPDATED',
+          mutation: data.postMethod,
           data: post,
         },
       });
