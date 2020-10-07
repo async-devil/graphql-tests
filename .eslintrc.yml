@@ -1,0 +1,7 @@
+rules:
+  no-console: 'off'
+  no-param-reassign:
+    - 'error'
+    - props: true
+      ignorePropertyModificationsFor:
+        - "db"
