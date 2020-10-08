@@ -2,5 +2,5 @@
 ``npm i`` or with ``--dev`` key if required
 # Execution
   ``npm run start`` to run
-  <p>``npm run eslint:lint`` to run eslint linter</p>
-  <p>``npm run eslint:fix`` to run linter with fix key</p>
+  <p><code>npm run eslint:lint</code> to run eslint linter</p>
+  <p><code>npm run eslint:fix </code>to run linter with fix key</p>
