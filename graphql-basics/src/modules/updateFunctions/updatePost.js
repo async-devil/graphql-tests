@@ -1,7 +1,8 @@
 function updatePost(posts, args) {
   const { id, data } = args;
+
   const updatedPosts = posts;
-  const postBeforeUpdate = posts.find((post) => post.id === id);
+  let {published} = posts.find((post) => post.id === id);
   const postToUpdate = posts.find((post) => post.id === id);
   const postIndex = posts.findIndex((post) => post.id === id);
   let postMethod;
@@ -21,11 +22,11 @@ function updatePost(posts, args) {
   if (typeof data.published === 'boolean') {
     postToUpdate.published = data.published;
 
-    console.log(postToUpdate, postBeforeUpdate);
+    console.log(postToUpdate, published);
 
-    if (postBeforeUpdate.published && !postToUpdate.published) {
+    if (published && !postToUpdate.published) {
       postMethod = 'DELETED';
-    } else if (!postBeforeUpdate.published && postToUpdate.published) {
+    } else if (!published && postToUpdate.published) {
       postMethod = 'CREATED';
     } else {
       postMethod = 'UPDATED';

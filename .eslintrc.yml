@@ -1,7 +1,11 @@
+parserOptions:
+  ecmaVersion:                        6
+  sourceType:                         'module'
+
 rules:
-  no-console: 'off'
+  no-console:                         'off'
   no-param-reassign:
     - 'error'
-    - props: true
+    - props:                          true
       ignorePropertyModificationsFor:
         - "db"
