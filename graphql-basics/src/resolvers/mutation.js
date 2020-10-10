@@ -88,7 +88,7 @@ const mutation = {
     const post = data.updatedPost;
     db.posts = data.updatedPosts;
 
-    if (post.published) {
+    if (post.published || data.postMethod === "DELETED") {
       pubsub.publish(`post by ${post.author}`, {
         userPost: {
           mutation: data.postMethod,
@@ -143,10 +143,10 @@ const mutation = {
     db.comments = data.updatedComments;
     const comment = data.updatedComment;
 
-    if (comment.published) {
+    if (comment.published || data.commentMethod === "DELETED") {
       pubsub.publish(`comment on ${comment.post}`, {
         comment: {
-          mutation: 'UPDATED',
+          mutation: data.commentMethod,
           data: comment,
         },
       });
