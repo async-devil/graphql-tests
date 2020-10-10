@@ -1,7 +1,7 @@
 function updatePost(posts, args) {
   const { id, data } = args;
-
   const updatedPosts = posts;
+  
   let {published} = posts.find((post) => post.id === id);
   const postToUpdate = posts.find((post) => post.id === id);
   const postIndex = posts.findIndex((post) => post.id === id);
@@ -21,8 +21,6 @@ function updatePost(posts, args) {
 
   if (typeof data.published === 'boolean') {
     postToUpdate.published = data.published;
-
-    console.log(postToUpdate, published);
 
     if (published && !postToUpdate.published) {
       postMethod = 'DELETED';
