@@ -1,8 +1,8 @@
 function updatePost(posts, args) {
   const { id, data } = args;
   const updatedPosts = posts;
-  
-  let {published} = posts.find((post) => post.id === id);
+
+  const { published } = posts.find((post) => post.id === id);
   const postToUpdate = posts.find((post) => post.id === id);
   const postIndex = posts.findIndex((post) => post.id === id);
   let postMethod;
