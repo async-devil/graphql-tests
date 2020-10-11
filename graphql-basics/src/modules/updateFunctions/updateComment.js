@@ -2,7 +2,7 @@ function updateComment(comments, args) {
   const { id, data } = args;
   const updatedComments = comments;
 
-  let {published} = comments.find((comment) => comment.id === id);
+  const { published } = comments.find((comment) => comment.id === id);
   const commentToUpdate = comments.find((comment) => comment.id === id);
   const commentIndex = comments.findIndex((comment) => comment.id === id);
   let commentMethod;
@@ -28,7 +28,7 @@ function updateComment(comments, args) {
   }
 
   updatedComments[commentIndex] = commentToUpdate;
-  return { updatedComment: commentToUpdate, updatedComments, commentMethod};
+  return { updatedComment: commentToUpdate, updatedComments, commentMethod };
 }
 
 export { updateComment as default };
