@@ -43,6 +43,7 @@ const mutation = {
     db.posts.push(post);
 
     if (post.published) {
+      // using subscriptions
       pubsub.publish(`post by ${post.author}`, {
         userPost: {
           mutation: 'CREATED',
@@ -67,6 +68,7 @@ const mutation = {
     const post = data.deletedPost;
 
     if (post.published) {
+      // using subscriptions
       pubsub.publish(`post by ${post.author}`, {
         userPost: {
           mutation: 'DELETED',
@@ -89,6 +91,7 @@ const mutation = {
     db.posts = data.updatedPosts;
 
     if (post.published || data.postMethod === 'DELETED') {
+      // using subscriptions
       pubsub.publish(`post by ${post.author}`, {
         userPost: {
           mutation: data.postMethod,
@@ -112,6 +115,7 @@ const mutation = {
     db.comments.push(comment);
 
     if (comment.published) {
+      // using subscriptions
       pubsub.publish(`comment on ${comment.post}`, {
         comment: {
           mutation: 'CREATED',
@@ -128,6 +132,7 @@ const mutation = {
     const comment = data.deletedComment;
 
     if (comment.published) {
+      // using subscriptions
       pubsub.publish(`comment on ${comment.post}`, {
         comment: {
           mutation: 'DELETED',
@@ -144,6 +149,7 @@ const mutation = {
     const comment = data.updatedComment;
 
     if (comment.published || data.commentMethod === 'DELETED') {
+      // using subscriptions
       pubsub.publish(`comment on ${comment.post}`, {
         comment: {
           mutation: data.commentMethod,
