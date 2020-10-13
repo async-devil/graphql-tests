@@ -1,3 +1,15 @@
+#-------------------------------------------------------------------------------
+
+ #######
+    #    #   # #####  ######  ####
+    #     # #  #    # #      #
+    #      #   #    # #####   ####
+    #      #   #####  #           #
+    #      #   #      #      #    #
+    #      #   #      ######  ####
+
+#-------------------------------------------------------------------------------
+
 type Query {
   me: User!
   posts(searchByAuthor: String, searchByTitle: String): [Post]
@@ -25,48 +37,6 @@ type Subscription {
   post: PostSubscriptionPayload!
 }
 
-###########################
-
-input createUserInput {
-  username: String!,
-  email: String!
-}
-
-input updateUserInput {
-  username: String,
-  email: String
-}
-
-###########################
-
-input createPostInput {
-  title: String!,
-  body: String!,
-  published: Boolean!,
-  author: ID!
-}
-
-input updatePostInput {
-  title: String,
-  body: String,
-  published: Boolean
-}
-
-###########################
-
-input createCommentsInput {
-  body: String!,
-  published: Boolean!,
-  author: ID!,
-  post: ID!
-}
-
-input updateCommentInput {
-  body: String,
-  published: Boolean
-}
-
-###########################
 
 type Post {
   title: String!
@@ -93,7 +63,6 @@ type User {
   comments: [Comment!]
 }
 
-###########################
 
 type PostSubscriptionPayload {
   mutation: MutationType!
@@ -105,9 +74,66 @@ type CommentSubscriptionPayload {
   data: Comment!
 }
 
-###########################
+#-------------------------------------------------------------------------------
 
-###########################
+ ###
+  #  #    # #####  #    # #####  ####
+  #  ##   # #    # #    #   #   #
+  #  # #  # #    # #    #   #    ####
+  #  #  # # #####  #    #   #        #
+  #  #   ## #      #    #   #   #    #
+ ### #    # #       ####    #    ####
+
+#-------------------------------------------------------------------------------
+
+input createUserInput {
+  username: String!,
+  email: String!
+}
+
+input updateUserInput {
+  username: String,
+  email: String
+}
+
+
+input createPostInput {
+  title: String!,
+  body: String!,
+  published: Boolean!,
+  author: ID!
+}
+
+input updatePostInput {
+  title: String,
+  body: String,
+  published: Boolean
+}
+
+
+input createCommentsInput {
+  body: String!,
+  published: Boolean!,
+  author: ID!,
+  post: ID!
+}
+
+input updateCommentInput {
+  body: String,
+  published: Boolean
+}
+
+#-------------------------------------------------------------------------------
+
+ ####### #     # #     # #     #
+ #       ##    # #     # ##   ##  ####
+ #       # #   # #     # # # # # #
+ #####   #  #  # #     # #  #  #  ####
+ #       #   # # #     # #     #      #
+ #       #    ## #     # #     # #    #
+ ####### #     #  #####  #     #  ####
+
+#-------------------------------------------------------------------------------
 
 enum MutationType {
   CREATED,
