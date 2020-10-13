@@ -12,7 +12,17 @@ import updateComment from '../modules/updateFunctions/updateComment';
 
 const mutation = {
 
-  /* Users mutations */
+/*------------------------------------------------------------------------------
+
+ #     #
+ #     #  ####  ###### #####   ####
+ #     # #      #      #    # #
+ #     #  ####  #####  #    #  ####
+ #     #      # #      #####       #
+ #     # #    # #      #   #  #    #
+  #####   ####  ###### #    #  ####
+
+------------------------------------------------------------------------------*/
   createUser(parent, args, { db }) {
     const user = addUser(db.users, args.data);
     // pushing
@@ -35,9 +45,19 @@ const mutation = {
     db.users = data.updatedUsers;
     return data.updatedUser;
   },
-  /*  */
 
-  /* Posts mutations */
+/*------------------------------------------------------------------------------
+
+ ######
+ #     #  ####   ####  #####  ####
+ #     # #    # #        #   #
+ ######  #    #  ####    #    ####
+ #       #    #      #   #        #
+ #       #    # #    #   #   #    #
+ #        ####   ####    #    ####
+
+------------------------------------------------------------------------------*/
+
   createPost(parent, args, { db, pubsub }) {
     const post = addPost(db.posts, args.data, db.users);
     db.posts.push(post);
@@ -107,9 +127,19 @@ const mutation = {
     }
     return post;
   },
-  /*  */
 
-  /* Comments mutations */
+/*------------------------------------------------------------------------------
+
+  #####
+ #     #  ####  #    # #    # ###### #    # #####  ####
+ #       #    # ##  ## ##  ## #      ##   #   #   #
+ #       #    # # ## # # ## # #####  # #  #   #    ####
+ #       #    # #    # #    # #      #  # #   #        #
+ #     # #    # #    # #    # #      #   ##   #   #    #
+  #####   ####  #    # #    # ###### #    #   #    ####
+
+------------------------------------------------------------------------------*/
+
   createComment(parent, args, { db, pubsub }) {
     const comment = addComments(db.comments, args.data, db.users, db.posts);
     db.comments.push(comment);
@@ -161,7 +191,8 @@ const mutation = {
   },
 };
 
-/*  */
+/*----------------------------------------------------------------------------*/
+
 export {
   mutation as
   default,
