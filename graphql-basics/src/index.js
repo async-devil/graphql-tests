@@ -41,5 +41,6 @@ const server = new GraphQLServer({
 /* Starting server */
 server.start(opts, () => {
   console.log(`Server started on localhost:${opts.port}`);
+  console.warn('DEPRECATED please use updated version')
 });
 /*  */
