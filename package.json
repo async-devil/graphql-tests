@@ -6,7 +6,9 @@
   "scripts": {
     "start": "nodemon graphql-basics/src/index.js --config nodemon.json",
     "eslint:check": "eslint .",
-    "eslint:fix": "eslint --fix ."
+    "eslint:fix": "eslint --fix .",
+    "prisma:run": "cd graphql-prisma/main/ && prisma deploy",
+    "prisma:stop": "cd graphql-prisma/main/ && prisma delete"
   },
   "repository": {
     "type": "git",
