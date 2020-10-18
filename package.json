@@ -8,7 +8,8 @@
     "eslint:check": "eslint .",
     "eslint:fix": "eslint --fix .",
     "prisma:run": "cd graphql-prisma/main/ && prisma deploy",
-    "prisma:stop": "cd graphql-prisma/main/ && prisma delete"
+    "prisma:stop": "cd graphql-prisma/main/ && prisma delete",
+    "dep:fix": "npx npm-force-resolutions && npm i"
   },
   "repository": {
     "type": "git",
