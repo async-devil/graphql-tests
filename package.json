@@ -29,6 +29,8 @@
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "graphql-yoga": "^1.18.3",
+    "prisma": "^1.34.10",
+    "prisma-binding": "^2.3.16",
     "uuid": "^8.3.1",
     "validator": "^13.1.17"
   },
@@ -38,5 +40,15 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "nodemon": "^2.0.4"
+  },
+  "resolutions": {
+    "node-fetch": "^2.6.1",
+    "apollo-server-lambda": "^2.18.2",
+    "apollo-server-express": "^2.18.2",
+    "yargs-parser": "^20.2.3",
+    "braces": "^3.0.2",
+    "prisma": "^1.34.10",
+    "marked": "^1.2.0",
+    "sync-exec": "^0.6.2"
   }
 }
