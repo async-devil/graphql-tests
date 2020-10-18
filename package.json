@@ -49,6 +49,7 @@
     "braces": "^3.0.2",
     "prisma": "^1.34.10",
     "marked": "^1.2.0",
-    "sync-exec": "^0.6.2"
+    "sync-exec": "^0.6.2",
+    "node-forge": "^0.10.0"
   }
 }
