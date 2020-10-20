@@ -6,3 +6,4 @@
   <p><code>npm run eslint:fix</code>to run linter with fix key</p>
   <p><code>npm run prisma:run</code>to deploy prisma</p>
   <p><code>npm run prisma:stop</code>to stop prisma</p>
+  <p><code>npm run dep:fix</code>to fix dependencies</p>
