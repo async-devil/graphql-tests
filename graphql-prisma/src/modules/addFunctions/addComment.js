@@ -15,7 +15,7 @@ function addComment(comments, args, users, posts) {
     const item = args[i];
     // checking if items not empty
     if (typeof item === 'boolean') {
-      return undefined; // not sure about that
+      return undefined;
     }
     if (validator.isEmpty(item)) {
       throw new Error('Invalid data');

@@ -14,7 +14,7 @@ function addPost(posts, args, users) {
     const item = args[i];
     // checking if items not empty
     if (typeof item === 'boolean') {
-      return undefined; // not sure about that
+      return undefined;
     }
     if (validator.isEmpty(item)) {
       throw new Error('Invalid data');
