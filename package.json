@@ -7,8 +7,8 @@
     "start": "nodemon graphql-basics/src/index.js --config nodemon.json",
     "eslint:check": "eslint .",
     "eslint:fix": "eslint --fix .",
-    "prisma:run": "cd graphql-prisma/main/ && prisma deploy",
-    "prisma:stop": "cd graphql-prisma/main/ && prisma delete",
+    "prisma:run": "cd graphql-prisma/src/ && prisma deploy",
+    "prisma:stop": "cd graphql-prisma/src/ && prisma delete",
     "dep:fix": "npx npm-force-resolutions && npm i"
   },
   "repository": {
