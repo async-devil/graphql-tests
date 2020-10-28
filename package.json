@@ -9,6 +9,7 @@
     "eslint:fix": "eslint --fix .",
     "prisma:run": "cd graphql-prisma/prisma/ && prisma deploy",
     "prisma:stop": "cd graphql-prisma/prisma/ && prisma delete",
+    "prisma:start": "cd graphql-prisma/prisma/ && docker-compose up -d && prisma deploy",
     "dep:fix": "npx npm-force-resolutions && npm i"
   },
   "repository": {
