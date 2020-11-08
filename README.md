@@ -1,3 +1,4 @@
+# Hi, this is graphql test repository
 # Installation
 ``npm i`` or with ``--dev`` key if required
 # Execution
